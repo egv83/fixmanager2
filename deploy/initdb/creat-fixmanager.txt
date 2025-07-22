@@ -1,0 +1,8 @@
+-- CREACION BDD --
+CREATE DATABA fixmanager;
+
+-- CREACION USER --
+CREATE USER fixmanager WITH PASSWORD 'FixM@nag3R2025*#';
+
+-- Darle todos los permisos sobre la base de datos
+GRANT ALL PRIVILEGES ON DATABASE fixmanager TO fixmanager;

@@ -1,0 +1,28 @@
+#Imagen con JDK para desarrollo
+FROM eclipse-temurin:17-jdk-jammy
+
+#EJECUTAR ACTUALIZACION, INSTALACION MAVEN Y DEPENDENCIAS
+RUN apt-get update && apt-get install -y maven
+
+#DIRECTORIO DE TRABAJO
+WORKDIR /app
+
+# Copia el archivo pom.xml para aprovechar el cache de dependencias de Maven
+COPY fixmanager/pom.xml .
+
+RUN mvn dependency:go-offline || true  # evita fallo si no se resuelve todo
+
+# Ahora copia todo el código fuente del backend (después de cachear deps)
+#COPY fixmanager /app
+
+# Variables de desarrollo (pueden sobrescribirse en docker-compose)
+#ENV SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/fixmanager_dev
+#ENV SPRING_DATASOURCE_USERNAME=devuser
+#ENV SPRING_DATASOURCE_PASSWORD=devpass
+
+# Puerto de Spring Boot
+EXPOSE 8080
+
+# Comando para desarrollo (hot-reload con spring-boot-devtools)
+CMD ["mvn", "spring-boot:run"]
+

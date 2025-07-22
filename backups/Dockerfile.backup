@@ -1,0 +1,23 @@
+FROM postgres:15
+
+RUN apt-get update && apt-get install -y cron
+
+# Script de backup
+COPY backup.sh /usr/local/bin/backup.sh
+RUN chmod +x /usr/local/bin/backup.sh
+
+# Cron job: ejecuta backup.sh todos los domingos a las 2:00 AM
+RUN echo "0 2 * * 0 /usr/local/bin/backup.sh >> /var/log/backup.log 2>&1" > /etc/cron.d/postgres-backup
+#* * * * *  comando_a_ejecutar
+#│ │ │ │ │
+#│ │ │ │ └── Día de la semana (0 - 7) (Domingo = 0 o 7)
+#│ │ │ └──── Mes (1 - 12)
+#│ │ └────── Día del mes (1 - 31)
+#│ └──────── Hora (0 - 23)
+#└────────── Minuto (0 - 59)
+
+RUN chmod 0644 /etc/cron.d/postgres-backup
+
+RUN crontab /etc/cron.d/postgres-backup
+
+CMD ["cron", "-f"]

@@ -1,0 +1,36 @@
+FROM node:20
+
+WORKDIR /app
+
+# Copia solo los archivos necesarios para instalar dependencias si no se usa volumes
+#COPY fixmanager/package.json fixmanager/yarn.lock* fixmanager/package-lock.json* ./
+COPY fixmanager/package*.json ./
+
+# Instalar dependencias
+#RUN npm install
+
+# Instala Expo CLI globalmente
+#RUN npm install -g
+
+# Instala ngrok para permitir túneles (para usar desde Expo Go en el celular)
+#RUN npm install -g @expo/ngrok
+
+# Copia el resto del proyecto
+#COPY fixmanager/ ./
+
+# Instalar dependencias necesarias para soporte web
+#RUN npx expo install react-dom react-native-web @expo/metro-runtime expo-dev-client
+
+# Instalar dependencias
+RUN npm install
+
+# Exponemos puertos Expo
+#EXPOSE 3000
+#Si se usa VITE y comentarl el 3000
+EXPOSE 5173            
+#EXPOSE 19000 19001 19002 19005 19006 3000 8081
+
+# Comando por defecto para levantar Expo (modo túnel)
+#CMD ["expo", "start", "--tunnel"]
+#CMD ["npm", "start"]  # Inicia en modo desarrollo
+#CMD ["npm", "run", "dev", "--", "--host"]  # Comando si se usa VITE

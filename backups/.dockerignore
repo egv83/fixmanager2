@@ -1,0 +1,8 @@
+# Ignora archivos innecesarios o temporales
+*.log
+*.tmp
+*.bak
+.DS_Store
+__pycache__/
+.env
+*.env

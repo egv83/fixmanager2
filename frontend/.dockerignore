@@ -1,0 +1,27 @@
+# Dependencias
+/node_modules
+
+# Build
+/dist
+/build
+
+# Archivos de lock redundantes
+yarn.lock
+pnpm-lock.yaml
+
+# Archivos ocultos y de sistema
+.DS_Store
+Thumbs.db
+
+# IDEs y config locales
+.idea
+.vscode
+*.log
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile*
+.dockerignore

@@ -1,0 +1,9 @@
+[submodule "backend"]
+	path = backend
+	url = https://github.com/egv83/fixmanager-backend.git
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/egv83/fixmanager-frontend.git
+[submodule "deploy"]
+	path = deploy
+	url = https://github.com/egv83/fixmanager-deploy.git

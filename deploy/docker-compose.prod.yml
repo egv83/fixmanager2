@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ../backend #RUTA RELATIVA AL SUBMODULO BACKEND JAVA SPRING
+      dockerfile: Dockerfile.prod
+    ports:
+      - "8088:8088"
+
+  frontend:
+    build:
+      context: ../frontend #RUTA RELATIVA AL SUBMODULO FRONTEND REACT
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3000:3000"

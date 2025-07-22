@@ -1,0 +1,24 @@
+# Ignorar salidas de compilación
+/target
+
+# Archivos temporales de IDE
+*.iml
+.idea/
+*.log
+
+# Git
+.git
+.gitignore
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Maven Wrapper (si no lo usas)
+/mvnw
+/mvnw.cmd
+/.mvn
+
+# Docker
+Dockerfile*
+.dockerignore

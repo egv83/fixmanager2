@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="user-202507182320" author="Esteban Vallejo" runOnChange="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="tb_user"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="tb_user">
+            <column name="id_user" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_name" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="user_password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="full_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_rol" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_actived" type="BOOLEAN" defaultValueBoolean="true"/>
+            <column name="fecha_creacion" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="user-202507182320-add-role-check-constraint" author="Esteban Vallejo" runOnChange="true">
+        <sql>
+            ALTER TABLE tb_user
+            ADD CONSTRAINT chk_user_rol CHECK (user_rol IN ('TECHNICIAN', 'SECRETARY', 'ADMIN'));
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
