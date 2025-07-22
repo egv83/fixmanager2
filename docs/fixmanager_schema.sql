@@ -1,15 +1,16 @@
 -- Usuarios con roles básicos
-CREATE TABLE account (
+CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     full_name VARCHAR(150),
     role VARCHAR(20) CHECK (role IN ('TECHNICIAN', 'SECRETARY', 'ADMIN')) NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Tabla: clients
-CREATE TABLE customer (
+CREATE TABLE customers (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100),
     email VARCHAR(100),
@@ -34,7 +35,7 @@ CREATE TABLE device_types (
 );
 
 -- Estados simplificados
-CREATE TABLE status (
+CREATE TABLE statuses (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) UNIQUE NOT NULL,  -- Ej: INGRESADO, EN_REVISIÓN, EN_REPARACIÓN, FINALIZADO
     is_final BOOLEAN DEFAULT FALSE,
@@ -84,7 +85,7 @@ CREATE TABLE service_tasks (
     id SERIAL PRIMARY KEY,
     service_order_id INT REFERENCES service_orders(id),
     name VARCHAR(100),
-    description TEXT,
+    description TEXT, -- Aquí se detalla diagnóstico y solución
     duration_minutes INT,
     start_date DATE,
     end_date DATE,
