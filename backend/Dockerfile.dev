@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y maven
 WORKDIR /app
 
 # Copia el archivo pom.xml para aprovechar el cache de dependencias de Maven
-COPY fixmanager/pom.xml .
+#COPY fixmanager/pom.xml .
 
 RUN mvn dependency:go-offline || true  # evita fallo si no se resuelve todo
 
