@@ -3,9 +3,12 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://${APP_DB_HOST}:${APP_DB_PORT}/${APP_DB_NAME}
-    username: ${APP_DB_USER}
-    password: ${APP_DB_PASSWORD}
+#    url: jdbc:postgresql://${APP_DB_HOST}:${APP_DB_PORT}/${APP_DB_NAME}
+#    username: ${APP_DB_USER}
+#    password: ${APP_DB_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/fixmanager
+    username: "fixmanager"
+    password: "FixM@nag3R2025*#"
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:

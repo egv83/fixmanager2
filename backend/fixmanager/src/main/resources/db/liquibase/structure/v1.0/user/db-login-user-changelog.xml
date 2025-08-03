@@ -29,7 +29,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="is_actived" type="BOOLEAN" defaultValueBoolean="true"/>
-            <column name="fecha_creacion" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="createAt" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
         </createTable>
     </changeSet>
 
