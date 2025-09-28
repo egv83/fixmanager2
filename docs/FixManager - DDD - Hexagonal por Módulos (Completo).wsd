@@ -1,0 +1,494 @@
+@startuml
+title FixManager - DDD / Hexagonal por Módulos (Completo)
+
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+' ==========================
+' Nota de principios y patrones
+' ==========================
+note as N0
+Principios: Limpio, modular, alta cohesión, bajo acoplamiento.
+Básicos: LoD, KISS, YAGNI, DRY.
+SOLID: SRP, OCP, LSP, ISP, DIP.
+Patrones:
+  - Creacionales: Factory Method, Builder, Singleton
+  - Estructurales: Adapter, Facade, Decorator
+  - Comportamiento: Observer, State, Strategy
+Arquitectura: DDD + Hexagonal (Dom/Appl/Infra/Interfaces).
+end note
+
+' ===========================================================================================
+' SHARED
+' ===========================================================================================
+package "shared" {
+  package "domain" {
+    class DomainEvent
+  }
+  package "application" {
+    class UseCase
+  }
+  package "infrastructure" {
+    class TransactionalBoundary
+  }
+  package "exception" {
+    class BusinessException
+    class NotFoundException
+    class ValidationException
+    class UnauthorizedException
+  }
+}
+
+' ===========================================================================================
+' AUTHENTICATION MODULE
+' ===========================================================================================
+package "authentication" {
+  package "domain" {
+    package "model" {
+      class AuthToken
+      class RefreshToken
+    }
+    package "service" {
+      interface TokenGenerator
+      class JwtTokenGenerator
+    }
+  }
+  package "application" {
+    package "dto" {
+      class LoginRequest
+      class LoginResponse
+    }
+    package "usecase" {
+      class LoginUserUseCase
+      class RefreshTokenUseCase
+      class RegisterUserUseCase
+    }
+    package "facade" {
+      class AuthFacade <<Facade>>
+    }
+  }
+  package "infrastructure" {
+    package "security" {
+      class SecurityConfig <<Singleton>>
+      class JwtProvider <<Singleton>>
+    }
+    package "adapter" {
+      class PasswordEncoderAdapter <<Adapter>>
+    }
+  }
+  package "interfaces" {
+    package "rest" {
+      class AuthController
+    }
+  }
+}
+
+' ===========================================================================================
+' USER MODULE (tabla: users)
+' ===========================================================================================
+package "user" {
+  package "domain" {
+    package "model" {
+      class User
+      class Role
+      class Permission
+      class Email <<ValueObject>>
+    }
+    package "repository" {
+      interface UserRepository
+    }
+    package "factory" {
+      class UserFactory <<Factory>>
+    }
+    package "event" {
+      class UserRegisteredEvent
+    }
+  }
+  package "application" {
+    package "dto" {
+      class UserDTO
+      class UserCreateDTO
+      class RoleDTO
+      class PermissionDTO
+    }
+    package "mapper" {
+      class UserDtoMapper <<Adapter>>
+    }
+    package "usecase" {
+      class CreateUserUseCase
+      class GetUserByIdUseCase
+      class AssignRolesUseCase
+    }
+  }
+
+  package "infrastructure" {
+    package "persistence" {
+      package "jpa" {
+        class UserEntity
+        class RoleEntity
+        class PermissionEntity
+        interface SpringUserJpaRepository
+        class JpaUserRepository 
+      }
+      package "mapper" {
+        class UserJpaMapper <<Adapter>>
+      }
+    }
+    package "decorator" {
+      class AuditableUserRepository <<Decorator>>
+      AuditableUserRepository ..|> IUserRepository
+    }
+  }
+  package "interfaces" {
+    package "rest" {
+      class UserController
+    }
+  }
+
+}
+
+
+
+' ===========================================================================================
+' CLIENTS MODULE (tabla: clients)
+' ===========================================================================================
+package "clients" {
+  package "domain" {
+    package "model" {
+      class Client
+    }
+    package "repository" {
+      interface ClientRepository
+    }
+  }
+  package "application" {
+    package "dto" {
+      class ClientDTO
+      class ClientCreateDTO
+    }
+    package "mapper" {
+      class ClientDtoMapper <<Adapter>>
+    }
+    package "usecase" {
+      class CreateClientUseCase
+      class GetClientByIdUseCase
+    }
+  }
+  package "infrastructure" {
+    package "persistence" {
+      package "jpa" {
+        class ClientEntity
+        interface SpringClientJpaRepository
+        class JpaClientRepository
+      }
+      package "mapper" {
+        class ClientJpaMapper <<Adapter>>
+      }
+    }
+  }
+  package "interfaces" {
+    package "rest" {
+      class ClientController
+    }
+  }
+}
+
+' ===========================================================================================
+' DEVICES MODULE (tabla: devices)
+' ===========================================================================================
+package "devices" {
+  package "domain" {
+    package "model" {
+      class Device
+    }
+    package "repository" {
+      interface DeviceRepository
+    }
+  }
+  package "application" {
+    package "dto" {
+      class DeviceDTO
+      class DeviceCreateDTO
+    }
+    package "mapper" {
+      class DeviceDtoMapper <<Adapter>>
+    }
+    package "usecase" {
+      class CreateDeviceUseCase
+      class FindDevicesByClientUseCase
+    }
+  }
+  package "infrastructure" {
+    package "persistence" {
+      package "jpa" {
+        class DeviceEntity
+        interface SpringDeviceJpaRepository
+        class JpaDeviceRepository
+      }
+      package "mapper" {
+        class DeviceJpaMapper <<Adapter>>
+      }
+    }
+  }
+  package "interfaces" {
+    package "rest" {
+      class DeviceController
+    }
+  }
+}
+
+' ===========================================================================================
+' SERVICE ORDERS MODULE (tablas: service_orders, service_tasks, service_costs, used_parts)
+' ===========================================================================================
+package "service" {
+  package "domain" {
+    package "model" {
+      class ServiceOrder
+      class ServiceTask
+      class ServiceCost
+      class UsedPartRef
+    }
+    package "repository" {
+      interface ServiceOrderRepository
+      interface ServiceTaskRepository
+      interface ServiceCostRepository
+    }
+    package "state" {
+      interface OrderState <<State>>
+      class PendingState
+      class InProgressState
+      class CompletedState
+      class CancelledState
+    }
+    package "strategy" {
+      interface PricingStrategy <<Strategy>>
+      class NormalPricingStrategy
+      class UrgentPricingStrategy
+    }
+    package "event" {
+      class ServiceOrderCreatedEvent
+      class ServiceOrderStateChangedEvent
+      class PartsConsumedEvent
+    }
+    package "factory" {
+      class ServiceOrderFactory <<Factory>>
+      class ServiceOrderBuilder <<Builder>>
+    }
+    package "observer" {
+      interface RepairObserver <<Observer>>
+      class TechnicianObserver
+      class ClientObserver
+    }
+  }
+  package "application" {
+    package "dto" {
+      class ServiceOrderDTO
+      class ServiceOrderCreateDTO
+      class ServiceTaskDTO
+      class ServiceCostDTO
+    }
+    package "mapper" {
+      class ServiceOrderDtoMapper <<Adapter>>
+    }
+    package "usecase" {
+      class CreateServiceOrderUseCase
+      class ChangeOrderStateUseCase
+      class GetServiceOrderByIdUseCase
+      class RecalculateOrderTotalUseCase
+    }
+    package "facade" {
+      class ServiceFacade <<Facade>>
+    }
+  }
+  package "infrastructure" {
+    package "persistence" {
+      package "jpa" {
+        class ServiceOrderEntity
+        class ServiceTaskEntity
+        class ServiceCostEntity
+        interface SpringServiceOrderJpaRepository
+        interface SpringServiceTaskJpaRepository
+        interface SpringServiceCostJpaRepository
+        class JpaServiceOrderRepository
+        class JpaServiceTaskRepository
+        class JpaServiceCostRepository
+      }
+      package "mapper" {
+        class ServiceOrderJpaMapper <<Adapter>>
+      }
+    }
+    package "decorator" {
+      class LoggingServiceOrderRepository <<Decorator>>
+    }
+  }
+  package "interfaces" {
+    package "rest" {
+      class ServiceOrderController
+    }
+  }
+}
+
+' ===========================================================================================
+' INVENTORY MODULE (tablas: parts_inventory, used_parts)
+' ===========================================================================================
+package "inventory" {
+  package "domain" {
+    package "model" {
+      class Part
+      class UsedPart
+    }
+    package "repository" {
+      interface PartRepository
+      interface UsedPartRepository
+    }
+    package "service" {
+      class StockDomainService
+    }
+  }
+  package "application" {
+    package "dto" {
+      class PartDTO
+      class ConsumePartRequest
+    }
+    package "mapper" {
+      class InventoryDtoMapper <<Adapter>>
+    }
+    package "usecase" {
+      class ConsumePartUseCase
+      class ListAvailablePartsUseCase
+    }
+  }
+  package "infrastructure" {
+    package "persistence" {
+      package "jpa" {
+        class PartEntity
+        class UsedPartEntity
+        interface SpringPartJpaRepository
+        interface SpringUsedPartJpaRepository
+        class JpaPartRepository
+        class JpaUsedPartRepository
+      }
+      package "mapper" {
+        class InventoryJpaMapper <<Adapter>>
+      }
+    }
+  }
+  package "interfaces" {
+    package "rest" {
+      class InventoryController
+    }
+  }
+}
+
+' ===========================================================================================
+' NOTIFICATIONS (transversal) – Adapter/Facade/Decorator + Observer
+' ===========================================================================================
+package "notifications" {
+  interface NotificationSender
+  class EmailNotificationAdapter <<Adapter>>
+  class SmsNotificationAdapter <<Adapter>>
+  class NotificationFacade <<Facade>>
+  abstract class NotificationDecorator <<Decorator>>
+  class LoggingNotificationDecorator
+  class NotificationEvent
+}
+
+' ===========================================================================================
+' CONFIG GLOBAL / SINGLETONS
+' ===========================================================================================
+package "config" {
+  class ApplicationProperties
+  class IntegrationConfig <<Singleton>>
+}
+
+' ==========================
+' RELACIONES (por módulo y transversales)
+' ==========================
+
+' AUTH
+AuthController --> AuthFacade
+AuthFacade --> LoginUserUseCase
+AuthFacade --> RefreshTokenUseCase
+AuthFacade --> RegisterUserUseCase
+LoginUserUseCase --> TokenGenerator
+TokenGenerator <|.. JwtTokenGenerator
+RegisterUserUseCase ..> user.application.dto.UserCreateDTO : usa (sin duplicar)
+RegisterUserUseCase --> user.application.usecase.CreateUserUseCase
+
+' USER
+UserController --> CreateUserUseCase
+UserController --> GetUserByIdUseCase
+CreateUserUseCase --> UserRepository
+CreateUserUseCase --> UserFactory
+GetUserByIdUseCase --> UserRepository
+UserRepository <|.. JpaUserRepository
+JpaUserRepository --> SpringUserJpaRepository
+UserDtoMapper --> User
+UserJpaMapper --> UserEntity
+AuditableUserRepository --> UserRepository
+
+' CLIENTS
+ClientController --> CreateClientUseCase
+ClientController --> GetClientByIdUseCase
+CreateClientUseCase --> ClientRepository
+ClientRepository <|.. JpaClientRepository
+JpaClientRepository --> SpringClientJpaRepository
+
+' DEVICES
+DeviceController --> CreateDeviceUseCase
+DeviceController --> FindDevicesByClientUseCase
+CreateDeviceUseCase --> DeviceRepository
+DeviceRepository <|.. JpaDeviceRepository
+JpaDeviceRepository --> SpringDeviceJpaRepository
+
+' SERVICE ORDERS
+ServiceOrderController --> ServiceFacade
+ServiceFacade --> CreateServiceOrderUseCase
+ServiceFacade --> ChangeOrderStateUseCase
+ServiceFacade --> GetServiceOrderByIdUseCase
+ServiceFacade --> RecalculateOrderTotalUseCase
+CreateServiceOrderUseCase --> ServiceOrderFactory
+CreateServiceOrderUseCase --> ServiceOrderRepository
+ChangeOrderStateUseCase --> ServiceOrderRepository
+ChangeOrderStateUseCase ..> OrderState
+ServiceOrder ..> OrderState
+OrderState <|.. PendingState
+OrderState <|.. InProgressState
+OrderState <|.. CompletedState
+OrderState <|.. CancelledState
+ServiceOrder ..> PricingStrategy
+PricingStrategy <|.. NormalPricingStrategy
+PricingStrategy <|.. UrgentPricingStrategy
+ServiceOrder ..> RepairObserver : attach/notify
+RepairObserver <|.. TechnicianObserver
+RepairObserver <|.. ClientObserver
+ServiceOrderCreatedEvent ..> notifications.NotificationEvent
+ServiceOrderStateChangedEvent ..> notifications.NotificationEvent
+ServiceOrderRepository <|.. JpaServiceOrderRepository
+JpaServiceOrderRepository --> SpringServiceOrderJpaRepository
+LoggingServiceOrderRepository --> ServiceOrderRepository
+
+' INVENTORY
+InventoryController --> ConsumePartUseCase
+InventoryController --> ListAvailablePartsUseCase
+ConsumePartUseCase --> PartRepository
+ConsumePartUseCase --> UsedPartRepository
+StockDomainService ..> PartRepository
+PartRepository <|.. JpaPartRepository
+UsedPartRepository <|.. JpaUsedPartRepository
+JpaPartRepository --> SpringPartJpaRepository
+JpaUsedPartRepository --> SpringUsedPartJpaRepository
+
+' NOTIFICATIONS
+NotificationFacade --> NotificationSender
+LoggingNotificationDecorator --> NotificationSender
+EmailNotificationAdapter ..|> NotificationSender
+SmsNotificationAdapter ..|> NotificationSender
+
+' CONFIG
+IntegrationConfig ..> notifications.NotificationFacade
+SecurityConfig ..> JwtProvider
+
+' Principios transversales: DIP (repositorios), LoD (controladores -> fachada/usecases), OCP (Strategy/State), DRY (mappers), KISS/YAGNI (casos de uso focalizados).
+
+@enduml

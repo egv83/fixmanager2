@@ -1,0 +1,56 @@
+@startuml
+
+package auth {
+    package dtos {
+        class AuthRequest
+        class AuthResponse
+    }
+    package services {
+        interface AuthService {
+            + AuthResponse login(AuthRequest req)
+            + UserDTO register(user.dtos.UserCreateDTO dto)
+        }
+    }
+    package services.impl {
+        class AuthServiceImpl
+    }
+    package controllers {
+        class AuthController
+    }
+}
+
+package user {
+    package dtos {
+        class UserDTO
+        class UserCreateDTO
+    }
+    package services {
+        interface UserService {
+            + UserDTO create(UserCreateDTO dto)
+            + UserDTO findById(Long id)
+        }
+    }
+    package services.impl {
+        class UserServiceImpl
+    }
+    package repositories {
+        interface UserRepository
+    }
+    package mappers {
+        class UserMapper
+    }
+    package entities {
+        class UserEntity
+    }
+    package controllers {
+        class UserController
+    }
+}
+
+' Relaciones
+auth.services.AuthService ..> user.dtos.UserCreateDTO : usa
+auth.services.AuthService ..> user.dtos.UserDTO : retorna
+auth.services.impl.AuthServiceImpl ..|> auth.services.AuthService
+user.services.impl.UserServiceImpl ..|> user.services.UserService
+
+@enduml

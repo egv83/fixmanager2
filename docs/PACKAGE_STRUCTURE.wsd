@@ -1,0 +1,56 @@
+@startuml
+package "Auth" {
+  class AuthController
+  class AuthService
+  class JwtTokenProvider
+  class LoginRequestDto
+  class LoginResponseDto
+  class UserDetailsImpl
+  class SecurityConfig
+}
+
+package "Usuarios" {
+  class UserController
+  class UserService
+  class UserRepository
+  class UserEntity
+  class UserDto
+  class UserBuilder
+  class RoleEntity
+  class PermissionEntity
+}
+
+package "Ordenes" {
+  class OrderController
+  class OrderService
+  class OrderRepository
+  class OrderEntity
+  class OrderDto
+  class OrderBuilder
+  class OrderStatus <<enum>>
+  class EstadoOrdenStrategy
+}
+
+package "Seguimiento" {
+  class OrderStatusHistoryEntity
+  class OrderTrackingService
+  class OrderStatusStrategy
+}
+
+package "Comentarios y Adjuntos" {
+  class CommentController
+  class AttachmentController
+  class CommentService
+  class AttachmentService
+  class CommentEntity
+  class AttachmentEntity
+  class AttachmentFactory
+}
+
+package "Reportes" {
+  class ReportController
+  class ReportService
+  class PDFReportBuilder
+  class ReportFactory
+}
+@enduml

@@ -1,0 +1,259 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="5547pt" height="107pt" viewBox="0.00 0.00 5547.00 107.40">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 103.4)">
+<title>G</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-103.4 5543,-103.4 5543,4 -4,4"/>
+<g id="clust1" class="cluster">
+<title>cluster_Auth</title>
+<polygon fill="none" stroke="blue" points="8,-10.8 8,-88.6 1047,-88.6 1047,-10.8 8,-10.8"/>
+<text text-anchor="middle" x="527.5" y="-72" font-family="Arial" font-size="14.00">Auth</text>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_Usuarios</title>
+<polygon fill="none" stroke="blue" points="1067,-10.8 1067,-88.6 2082,-88.6 2082,-10.8 1067,-10.8"/>
+<text text-anchor="middle" x="1574.5" y="-72" font-family="Arial" font-size="14.00">Usuarios</text>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_Ordenes</title>
+<polygon fill="none" stroke="blue" points="2102,-8 2102,-91.4 3196,-91.4 3196,-8 2102,-8"/>
+<text text-anchor="middle" x="2649" y="-74.8" font-family="Arial" font-size="14.00">Ordenes</text>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_Seguimiento</title>
+<polygon fill="none" stroke="blue" points="3216,-10.8 3216,-88.6 3770,-88.6 3770,-10.8 3216,-10.8"/>
+<text text-anchor="middle" x="3493" y="-72" font-family="Arial" font-size="14.00">Seguimiento</text>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_ComentariosAdjuntos</title>
+<polygon fill="none" stroke="blue" points="3789,-10.8 3789,-88.6 4930,-88.6 4930,-10.8 3789,-10.8"/>
+<text text-anchor="middle" x="4359.5" y="-72" font-family="Arial" font-size="14.00">Comentarios y Adjuntos</text>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_Reportes</title>
+<polygon fill="none" stroke="blue" points="4950,-10.8 4950,-88.6 5531,-88.6 5531,-10.8 4950,-10.8"/>
+<text text-anchor="middle" x="5240.5" y="-72" font-family="Arial" font-size="14.00">Reportes</text>
+</g>
+<!-- AuthController -->
+<g id="node1" class="node">
+<title>AuthController</title>
+<polygon fill="lightgray" stroke="black" points="16.26,-19.3 16.26,-55.3 121.74,-55.3 121.74,-19.3 16.26,-19.3"/>
+<text text-anchor="middle" x="69" y="-33.2" font-family="Arial" font-size="14.00">AuthController</text>
+</g>
+<!-- AuthService -->
+<g id="node2" class="node">
+<title>AuthService</title>
+<polygon fill="lightgray" stroke="black" points="157.26,-19.3 157.26,-55.3 248.74,-55.3 248.74,-19.3 157.26,-19.3"/>
+<text text-anchor="middle" x="203" y="-33.2" font-family="Arial" font-size="14.00">AuthService</text>
+</g>
+<!-- JwtTokenProvider -->
+<g id="node3" class="node">
+<title>JwtTokenProvider</title>
+<polygon fill="lightgray" stroke="black" points="284.98,-19.3 284.98,-55.3 413.02,-55.3 413.02,-19.3 284.98,-19.3"/>
+<text text-anchor="middle" x="349" y="-33.2" font-family="Arial" font-size="14.00">JwtTokenProvider</text>
+</g>
+<!-- LoginRequestDto -->
+<g id="node4" class="node">
+<title>LoginRequestDto</title>
+<polygon fill="lightgray" stroke="black" points="448.91,-19.3 448.91,-55.3 573.09,-55.3 573.09,-19.3 448.91,-19.3"/>
+<text text-anchor="middle" x="511" y="-33.2" font-family="Arial" font-size="14.00">LoginRequestDto</text>
+</g>
+<!-- LoginResponseDto -->
+<g id="node5" class="node">
+<title>LoginResponseDto</title>
+<polygon fill="lightgray" stroke="black" points="609.46,-19.3 609.46,-55.3 744.54,-55.3 744.54,-19.3 609.46,-19.3"/>
+<text text-anchor="middle" x="677" y="-33.2" font-family="Arial" font-size="14.00">LoginResponseDto</text>
+</g>
+<!-- UserDetailsImpl -->
+<g id="node6" class="node">
+<title>UserDetailsImpl</title>
+<polygon fill="lightgray" stroke="black" points="780.6,-19.3 780.6,-55.3 895.4,-55.3 895.4,-19.3 780.6,-19.3"/>
+<text text-anchor="middle" x="838" y="-33.2" font-family="Arial" font-size="14.00">UserDetailsImpl</text>
+</g>
+<!-- SecurityConfig -->
+<g id="node7" class="node">
+<title>SecurityConfig</title>
+<polygon fill="lightgray" stroke="black" points="931.48,-19.3 931.48,-55.3 1038.52,-55.3 1038.52,-19.3 931.48,-19.3"/>
+<text text-anchor="middle" x="985" y="-33.2" font-family="Arial" font-size="14.00">SecurityConfig</text>
+</g>
+<!-- UserController -->
+<g id="node8" class="node">
+<title>UserController</title>
+<polygon fill="lightgray" stroke="black" points="1074.88,-19.3 1074.88,-55.3 1181.12,-55.3 1181.12,-19.3 1074.88,-19.3"/>
+<text text-anchor="middle" x="1128" y="-33.2" font-family="Arial" font-size="14.00">UserController</text>
+</g>
+<!-- UserService -->
+<g id="node9" class="node">
+<title>UserService</title>
+<polygon fill="lightgray" stroke="black" points="1216.88,-19.3 1216.88,-55.3 1309.12,-55.3 1309.12,-19.3 1216.88,-19.3"/>
+<text text-anchor="middle" x="1263" y="-33.2" font-family="Arial" font-size="14.00">UserService</text>
+</g>
+<!-- UserRepository -->
+<g id="node10" class="node">
+<title>UserRepository</title>
+<polygon fill="lightgray" stroke="black" points="1344.76,-19.3 1344.76,-55.3 1457.24,-55.3 1457.24,-19.3 1344.76,-19.3"/>
+<text text-anchor="middle" x="1401" y="-33.2" font-family="Arial" font-size="14.00">UserRepository</text>
+</g>
+<!-- UserEntity -->
+<g id="node11" class="node">
+<title>UserEntity</title>
+<polygon fill="lightgray" stroke="black" points="1493.71,-19.3 1493.71,-55.3 1574.29,-55.3 1574.29,-19.3 1493.71,-19.3"/>
+<text text-anchor="middle" x="1534" y="-33.2" font-family="Arial" font-size="14.00">UserEntity</text>
+</g>
+<!-- UserDto -->
+<g id="node12" class="node">
+<title>UserDto</title>
+<polygon fill="lightgray" stroke="black" points="1610.33,-19.3 1610.33,-55.3 1677.67,-55.3 1677.67,-19.3 1610.33,-19.3"/>
+<text text-anchor="middle" x="1644" y="-33.2" font-family="Arial" font-size="14.00">UserDto</text>
+</g>
+<!-- UserBuilder -->
+<g id="node13" class="node">
+<title>UserBuilder</title>
+<polygon fill="lightgray" stroke="black" points="1713.43,-19.3 1713.43,-55.3 1802.57,-55.3 1802.57,-19.3 1713.43,-19.3"/>
+<text text-anchor="middle" x="1758" y="-33.2" font-family="Arial" font-size="14.00">UserBuilder</text>
+</g>
+<!-- RoleEntity -->
+<g id="node14" class="node">
+<title>RoleEntity</title>
+<polygon fill="lightgray" stroke="black" points="1838.1,-19.3 1838.1,-55.3 1917.9,-55.3 1917.9,-19.3 1838.1,-19.3"/>
+<text text-anchor="middle" x="1878" y="-33.2" font-family="Arial" font-size="14.00">RoleEntity</text>
+</g>
+<!-- PermissionEntity -->
+<g id="node15" class="node">
+<title>PermissionEntity</title>
+<polygon fill="lightgray" stroke="black" points="1953.87,-19.3 1953.87,-55.3 2074.13,-55.3 2074.13,-19.3 1953.87,-19.3"/>
+<text text-anchor="middle" x="2014" y="-33.2" font-family="Arial" font-size="14.00">PermissionEntity</text>
+</g>
+<!-- OrderController -->
+<g id="node16" class="node">
+<title>OrderController</title>
+<polygon fill="lightgray" stroke="black" points="2109.76,-19.3 2109.76,-55.3 2222.24,-55.3 2222.24,-19.3 2109.76,-19.3"/>
+<text text-anchor="middle" x="2166" y="-33.2" font-family="Arial" font-size="14.00">OrderController</text>
+</g>
+<!-- OrderService -->
+<g id="node17" class="node">
+<title>OrderService</title>
+<polygon fill="lightgray" stroke="black" points="2257.77,-19.3 2257.77,-55.3 2356.23,-55.3 2356.23,-19.3 2257.77,-19.3"/>
+<text text-anchor="middle" x="2307" y="-33.2" font-family="Arial" font-size="14.00">OrderService</text>
+</g>
+<!-- OrderRepository -->
+<g id="node18" class="node">
+<title>OrderRepository</title>
+<polygon fill="lightgray" stroke="black" points="2392.65,-19.3 2392.65,-55.3 2511.35,-55.3 2511.35,-19.3 2392.65,-19.3"/>
+<text text-anchor="middle" x="2452" y="-33.2" font-family="Arial" font-size="14.00">OrderRepository</text>
+</g>
+<!-- OrderEntity -->
+<g id="node19" class="node">
+<title>OrderEntity</title>
+<polygon fill="lightgray" stroke="black" points="2547.6,-19.3 2547.6,-55.3 2634.4,-55.3 2634.4,-19.3 2547.6,-19.3"/>
+<text text-anchor="middle" x="2591" y="-33.2" font-family="Arial" font-size="14.00">OrderEntity</text>
+</g>
+<!-- OrderDto -->
+<g id="node20" class="node">
+<title>OrderDto</title>
+<polygon fill="lightgray" stroke="black" points="2670.21,-19.3 2670.21,-55.3 2743.79,-55.3 2743.79,-19.3 2670.21,-19.3"/>
+<text text-anchor="middle" x="2707" y="-33.2" font-family="Arial" font-size="14.00">OrderDto</text>
+</g>
+<!-- OrderBuilder -->
+<g id="node21" class="node">
+<title>OrderBuilder</title>
+<polygon fill="lightgray" stroke="black" points="2779.32,-19.3 2779.32,-55.3 2874.68,-55.3 2874.68,-19.3 2779.32,-19.3"/>
+<text text-anchor="middle" x="2827" y="-33.2" font-family="Arial" font-size="14.00">OrderBuilder</text>
+</g>
+<!-- OrderStatus -->
+<g id="node22" class="node">
+<title>OrderStatus</title>
+<polygon fill="lightgray" stroke="black" points="2910.26,-16.5 2910.26,-58.1 3001.74,-58.1 3001.74,-16.5 2910.26,-16.5"/>
+<text text-anchor="middle" x="2956" y="-41.5" font-family="Arial" font-size="14.00">«enum»</text>
+<text text-anchor="middle" x="2956" y="-24.7" font-family="Arial" font-size="14.00">OrderStatus</text>
+</g>
+<!-- EstadoOrdenStrategy -->
+<g id="node23" class="node">
+<title>EstadoOrdenStrategy</title>
+<polygon fill="lightgray" stroke="black" points="3037.68,-19.3 3037.68,-55.3 3188.32,-55.3 3188.32,-19.3 3037.68,-19.3"/>
+<text text-anchor="middle" x="3113" y="-33.2" font-family="Arial" font-size="14.00">EstadoOrdenStrategy</text>
+</g>
+<!-- OrderStatusHistoryEntity -->
+<g id="node24" class="node">
+<title>OrderStatusHistoryEntity</title>
+<polygon fill="lightgray" stroke="black" points="3223.98,-19.3 3223.98,-55.3 3394.02,-55.3 3394.02,-19.3 3223.98,-19.3"/>
+<text text-anchor="middle" x="3309" y="-33.2" font-family="Arial" font-size="14.00">OrderStatusHistoryEntity</text>
+</g>
+<!-- OrderTrackingService -->
+<g id="node25" class="node">
+<title>OrderTrackingService</title>
+<polygon fill="lightgray" stroke="black" points="3429.92,-19.3 3429.92,-55.3 3582.08,-55.3 3582.08,-19.3 3429.92,-19.3"/>
+<text text-anchor="middle" x="3506" y="-33.2" font-family="Arial" font-size="14.00">OrderTrackingService</text>
+</g>
+<!-- OrderStatusStrategy -->
+<g id="node26" class="node">
+<title>OrderStatusStrategy</title>
+<polygon fill="lightgray" stroke="black" points="3618.19,-19.3 3618.19,-55.3 3761.81,-55.3 3761.81,-19.3 3618.19,-19.3"/>
+<text text-anchor="middle" x="3690" y="-33.2" font-family="Arial" font-size="14.00">OrderStatusStrategy</text>
+</g>
+<!-- CommentController -->
+<g id="node27" class="node">
+<title>CommentController</title>
+<polygon fill="lightgray" stroke="black" points="3797.31,-19.3 3797.31,-55.3 3934.69,-55.3 3934.69,-19.3 3797.31,-19.3"/>
+<text text-anchor="middle" x="3866" y="-33.2" font-family="Arial" font-size="14.00">CommentController</text>
+</g>
+<!-- AttachmentController -->
+<g id="node28" class="node">
+<title>AttachmentController</title>
+<polygon fill="lightgray" stroke="black" points="3970.25,-19.3 3970.25,-55.3 4117.75,-55.3 4117.75,-19.3 3970.25,-19.3"/>
+<text text-anchor="middle" x="4044" y="-33.2" font-family="Arial" font-size="14.00">AttachmentController</text>
+</g>
+<!-- CommentService -->
+<g id="node29" class="node">
+<title>CommentService</title>
+<polygon fill="lightgray" stroke="black" points="4153.32,-19.3 4153.32,-55.3 4276.68,-55.3 4276.68,-19.3 4153.32,-19.3"/>
+<text text-anchor="middle" x="4215" y="-33.2" font-family="Arial" font-size="14.00">CommentService</text>
+</g>
+<!-- AttachmentService -->
+<g id="node30" class="node">
+<title>AttachmentService</title>
+<polygon fill="lightgray" stroke="black" points="4312.25,-19.3 4312.25,-55.3 4445.75,-55.3 4445.75,-19.3 4312.25,-19.3"/>
+<text text-anchor="middle" x="4379" y="-33.2" font-family="Arial" font-size="14.00">AttachmentService</text>
+</g>
+<!-- CommentEntity -->
+<g id="node31" class="node">
+<title>CommentEntity</title>
+<polygon fill="lightgray" stroke="black" points="4482.15,-19.3 4482.15,-55.3 4593.85,-55.3 4593.85,-19.3 4482.15,-19.3"/>
+<text text-anchor="middle" x="4538" y="-33.2" font-family="Arial" font-size="14.00">CommentEntity</text>
+</g>
+<!-- AttachmentEntity -->
+<g id="node32" class="node">
+<title>AttachmentEntity</title>
+<polygon fill="lightgray" stroke="black" points="4630.09,-19.3 4630.09,-55.3 4751.91,-55.3 4751.91,-19.3 4630.09,-19.3"/>
+<text text-anchor="middle" x="4691" y="-33.2" font-family="Arial" font-size="14.00">AttachmentEntity</text>
+</g>
+<!-- AttachmentFactory -->
+<g id="node33" class="node">
+<title>AttachmentFactory</title>
+<polygon fill="lightgray" stroke="black" points="4788.26,-19.3 4788.26,-55.3 4921.74,-55.3 4921.74,-19.3 4788.26,-19.3"/>
+<text text-anchor="middle" x="4855" y="-33.2" font-family="Arial" font-size="14.00">AttachmentFactory</text>
+</g>
+<!-- ReportController -->
+<g id="node34" class="node">
+<title>ReportController</title>
+<polygon fill="lightgray" stroke="black" points="4957.65,-19.3 4957.65,-55.3 5076.35,-55.3 5076.35,-19.3 4957.65,-19.3"/>
+<text text-anchor="middle" x="5017" y="-33.2" font-family="Arial" font-size="14.00">ReportController</text>
+</g>
+<!-- ReportService -->
+<g id="node35" class="node">
+<title>ReportService</title>
+<polygon fill="lightgray" stroke="black" points="5112.65,-19.3 5112.65,-55.3 5217.35,-55.3 5217.35,-19.3 5112.65,-19.3"/>
+<text text-anchor="middle" x="5165" y="-33.2" font-family="Arial" font-size="14.00">ReportService</text>
+</g>
+<!-- PDFReportBuilder -->
+<g id="node36" class="node">
+<title>PDFReportBuilder</title>
+<polygon fill="lightgray" stroke="black" points="5253.2,-19.3 5253.2,-55.3 5382.8,-55.3 5382.8,-19.3 5253.2,-19.3"/>
+<text text-anchor="middle" x="5318" y="-33.2" font-family="Arial" font-size="14.00">PDFReportBuilder</text>
+</g>
+<!-- ReportFactory -->
+<g id="node37" class="node">
+<title>ReportFactory</title>
+<polygon fill="lightgray" stroke="black" points="5418.65,-19.3 5418.65,-55.3 5523.35,-55.3 5523.35,-19.3 5418.65,-19.3"/>
+<text text-anchor="middle" x="5471" y="-33.2" font-family="Arial" font-size="14.00">ReportFactory</text>
+</g>
+</g>
+</svg>

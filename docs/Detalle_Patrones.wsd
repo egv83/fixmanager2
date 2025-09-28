@@ -1,0 +1,89 @@
+@startuml
+title FixManager Backend - Detalle Patrones - PlantUML
+
+' Nota explicativa de patrones preferidos
+'note top
+'  Patrones preferidos y su aplicación en FixManager:
+'  
+'  Creational:
+'   - Factory Method: creación de órdenes de servicio con diferentes tipos en OrderFactory
+'   - Builder: construcción flexible de órdenes con OrderBuilder
+'   - Singleton: configuración global y token JWT (IntegrationConfig, JwtProvider)
+'
+'  Structural:
+'   - Adapter: adaptadores de notificaciones EmailNotificationAdapter, SmsNotificationAdapter
+'   - Facade: NotificationFacade unifica envíos de notificaciones
+'   - Decorator: LoggingNotificationDecorator para añadir logging a las notificaciones
+'
+'  Behavioral:
+'   - Observer: observadores que reaccionan a cambios en órdenes (TechnicianObserver, ClientObserver)
+'   - State: estados de orden con lógica para cambio de estado (PendingState, InProgressState, CompletedState)
+'   - Strategy: diferentes estrategias de pricing para las órdenes (NormalPricingStrategy, UrgentPricingStrategy)
+'end note
+
+' -------------------------
+package "patterns.creational" {
+    class OrderFactory <<Factory>> {
+        +createOrder(String type) 'Factory Method para crear órdenes según tipo
+    }
+    class OrderBuilder <<Builder>> {
+        +withClient(...)
+        +withDevice(...)
+        +build() 'Builder para construir órdenes paso a paso
+    }
+    class IntegrationConfig <<Singleton>> {
+        +getEmailClient()
+        +getExternalApiClient() 'Singleton para configuración única y compartida
+    }
+    class JwtProvider <<Singleton>> {
+        +String generateToken(User user)
+        +boolean validateToken(String token) 'Singleton para manejo de tokens JWT
+    }
+}
+
+' -------------------------
+package "patterns.structural" {
+    interface NotificationSender
+
+    class EmailNotificationAdapter <<Adapter>> {
+        +send(NotificationEvent ev) 'Adapter para enviar email usando interfaz común
+    }
+    class SmsNotificationAdapter <<Adapter>> {
+        +send(NotificationEvent ev) 'Adapter para enviar SMS usando interfaz común
+    }
+    class NotificationFacade <<Facade>> {
+        +notifyOrderCreated(ServiceOrderDTO dto) 'Facade simplifica envío múltiple de notificaciones
+        +notifyOrderStateChanged(ServiceOrderDTO dto)
+    }
+    abstract class NotificationDecorator <<Decorator>> {
+        -NotificationSender delegate
+        +send(NotificationEvent ev) 'Decorator para añadir funcionalidades como logging
+    }
+    class LoggingNotificationDecorator extends NotificationDecorator
+}
+
+' -------------------------
+package "patterns.behavioral" {
+    interface OrderState {
+        +handle(ServiceOrderEntity order) 'State para modelar estados de la orden
+    }
+    class PendingState implements OrderState
+    class InProgressState implements OrderState
+    class CompletedState implements OrderState
+
+    interface PricingStrategy {
+        +double calculate(ServiceOrderEntity order) 'Strategy para calcular precios según contexto
+    }
+    class NormalPricingStrategy implements PricingStrategy
+    class UrgentPricingStrategy implements PricingStrategy
+
+    interface RepairObserver {
+        +update(ServiceOrderEntity order) 'Observer para reaccionar a cambios en órdenes
+    }
+    class TechnicianObserver implements RepairObserver
+    class ClientObserver implements RepairObserver
+}
+
+' ... resto del diagrama igual
+
+@enduml

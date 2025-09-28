@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1840pt" height="507pt" viewBox="0.00 0.00 1840.00 507.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 503)">
+<title>G</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-503 1836,-503 1836,4 -4,4"/>
+<g id="clust1" class="cluster">
+<title>cluster_authentication_entity</title>
+<polygon fill="none" stroke="blue" points="8,-8 8,-491 272,-491 272,-8 8,-8"/>
+<text text-anchor="middle" x="140" y="-474.4" font-family="Arial" font-size="14.00">authentication.entity</text>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_authentication_dto</title>
+<polygon fill="none" stroke="green" points="280,-341.6 280,-482.6 759,-482.6 759,-341.6 280,-341.6"/>
+<text text-anchor="middle" x="519.5" y="-466" font-family="Arial" font-size="14.00">authentication.dto</text>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_authentication_service</title>
+<polygon fill="none" stroke="orange" points="767,-166.3 767,-465.8 1325,-465.8 1325,-166.3 767,-166.3"/>
+<text text-anchor="middle" x="1046" y="-449.2" font-family="Arial" font-size="14.00">authentication.service</text>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_authentication_repository</title>
+<polygon fill="none" stroke="purple" points="1345,-191.5 1345,-273.9 1824,-273.9 1824,-191.5 1345,-191.5"/>
+<text text-anchor="middle" x="1584.5" y="-257.3" font-family="Arial" font-size="14.00">authentication.repository</text>
+</g>
+<!-- UserEntity -->
+<g id="node1" class="node">
+<title>UserEntity</title>
+<polygon fill="lightgray" stroke="black" points="58.08,-341.7 58.08,-457.7 221.92,-457.7 221.92,-341.7 58.08,-341.7"/>
+<text text-anchor="middle" x="140" y="-441.1" font-family="Arial" font-size="14.00">UserEntity</text>
+<polyline fill="none" stroke="black" points="58.08,-432.9 221.92,-432.9"/>
+<text text-anchor="start" x="66.08" y="-400.3" font-family="Arial" font-size="14.00">- id: Long</text>
+<text text-anchor="start" x="66.08" y="-383.5" font-family="Arial" font-size="14.00">- username: String</text>
+<text text-anchor="start" x="66.08" y="-366.7" font-family="Arial" font-size="14.00">- password: String</text>
+<text text-anchor="start" x="66.08" y="-349.9" font-family="Arial" font-size="14.00">- roles: Set&lt;RoleEntity&gt;</text>
+</g>
+<!-- RoleEntity -->
+<g id="node2" class="node">
+<title>RoleEntity</title>
+<polygon fill="lightgray" stroke="black" points="15.68,-170.7 15.68,-269.9 264.32,-269.9 264.32,-170.7 15.68,-170.7"/>
+<text text-anchor="middle" x="140" y="-253.3" font-family="Arial" font-size="14.00">RoleEntity</text>
+<polyline fill="none" stroke="black" points="15.68,-245.1 264.32,-245.1"/>
+<text text-anchor="start" x="23.68" y="-212.5" font-family="Arial" font-size="14.00">- id: Long</text>
+<text text-anchor="start" x="23.68" y="-195.7" font-family="Arial" font-size="14.00">- name: String</text>
+<text text-anchor="start" x="23.68" y="-178.9" font-family="Arial" font-size="14.00">- permissions: Set&lt;PermissionEntity&gt;</text>
+</g>
+<!-- UserEntity&#45;&gt;RoleEntity -->
+<g id="edge1" class="edge">
+<title>UserEntity-&gt;RoleEntity</title>
+<path fill="none" stroke="black" d="M140,-341.59C140,-322.91 140,-302.08 140,-283.07"/>
+<polygon fill="black" stroke="black" points="140,-283.15 136,-277.15 140,-271.15 144,-277.15 140,-283.15"/>
+<text text-anchor="middle" x="150.51" y="-301.6" font-family="Arial" font-size="14.00">1..*</text>
+</g>
+<!-- PermissionEntity -->
+<g id="node3" class="node">
+<title>PermissionEntity</title>
+<polygon fill="lightgray" stroke="black" points="79.87,-16.5 79.87,-98.9 200.13,-98.9 200.13,-16.5 79.87,-16.5"/>
+<text text-anchor="middle" x="140" y="-82.3" font-family="Arial" font-size="14.00">PermissionEntity</text>
+<polyline fill="none" stroke="black" points="79.87,-74.1 200.13,-74.1"/>
+<text text-anchor="start" x="87.87" y="-41.5" font-family="Arial" font-size="14.00">- id: Long</text>
+<text text-anchor="start" x="87.87" y="-24.7" font-family="Arial" font-size="14.00">- name: String</text>
+</g>
+<!-- RoleEntity&#45;&gt;PermissionEntity -->
+<g id="edge2" class="edge">
+<title>RoleEntity-&gt;PermissionEntity</title>
+<path fill="none" stroke="black" d="M140,-170.24C140,-151.89 140,-130.97 140,-112.23"/>
+<polygon fill="black" stroke="black" points="140,-112.26 136,-106.26 140,-100.26 144,-106.26 140,-112.26"/>
+<text text-anchor="middle" x="150.51" y="-130.6" font-family="Arial" font-size="14.00">1..*</text>
+</g>
+<!-- LoginRequest -->
+<g id="node4" class="node">
+<title>LoginRequest</title>
+<polygon fill="lightgray" stroke="black" points="288.42,-358.5 288.42,-440.9 419.58,-440.9 419.58,-358.5 288.42,-358.5"/>
+<text text-anchor="middle" x="354" y="-424.3" font-family="Arial" font-size="14.00">LoginRequest</text>
+<polyline fill="none" stroke="black" points="288.42,-416.1 419.58,-416.1"/>
+<text text-anchor="start" x="296.42" y="-383.5" font-family="Arial" font-size="14.00">- username: String</text>
+<text text-anchor="start" x="296.42" y="-366.7" font-family="Arial" font-size="14.00">- password: String</text>
+</g>
+<!-- LoginResponse -->
+<g id="node5" class="node">
+<title>LoginResponse</title>
+<polygon fill="lightgray" stroke="black" points="455.31,-358.5 455.31,-440.9 578.69,-440.9 578.69,-358.5 455.31,-358.5"/>
+<text text-anchor="middle" x="517" y="-424.3" font-family="Arial" font-size="14.00">LoginResponse</text>
+<polyline fill="none" stroke="black" points="455.31,-416.1 578.69,-416.1"/>
+<text text-anchor="start" x="463.31" y="-383.5" font-family="Arial" font-size="14.00">- token: String</text>
+<text text-anchor="start" x="463.31" y="-366.7" font-family="Arial" font-size="14.00">- userInfo: Object</text>
+</g>
+<!-- SignUpRequest -->
+<g id="node6" class="node">
+<title>SignUpRequest</title>
+<polygon fill="lightgray" stroke="black" points="614.69,-350.1 614.69,-449.3 751.31,-449.3 751.31,-350.1 614.69,-350.1"/>
+<text text-anchor="middle" x="683" y="-432.7" font-family="Arial" font-size="14.00">SignUpRequest</text>
+<polyline fill="none" stroke="black" points="614.69,-424.5 751.31,-424.5"/>
+<text text-anchor="start" x="622.69" y="-391.9" font-family="Arial" font-size="14.00">- username: String</text>
+<text text-anchor="start" x="622.69" y="-375.1" font-family="Arial" font-size="14.00">- password: String</text>
+<text text-anchor="start" x="622.69" y="-358.3" font-family="Arial" font-size="14.00">- roles: Set&lt;String&gt;</text>
+</g>
+<!-- AuthService -->
+<g id="node7" class="node">
+<title>AuthService</title>
+<polygon fill="lightgray" stroke="black" points="1317.22,-266.3 1058.78,-266.3 1058.78,-262.3 1054.78,-262.3 1054.78,-258.3 1058.78,-258.3 1058.78,-182.3 1054.78,-182.3 1054.78,-178.3 1058.78,-178.3 1058.78,-174.3 1317.22,-174.3 1317.22,-266.3"/>
+<polyline fill="none" stroke="black" points="1058.78,-262.3 1062.78,-262.3 1062.78,-258.3 1058.78,-258.3"/>
+<polyline fill="none" stroke="black" points="1058.78,-182.3 1062.78,-182.3 1062.78,-178.3 1058.78,-178.3"/>
+<text text-anchor="middle" x="1188" y="-249.7" font-family="Arial" font-size="14.00">{«interface»</text>
+<text text-anchor="middle" x="1188" y="-232.9" font-family="Arial" font-size="14.00">AuthService|</text>
+<text text-anchor="start" x="1066.78" y="-216.1" font-family="Arial" font-size="14.00">+ login(LoginRequest): LoginResponse</text>
+<text text-anchor="start" x="1066.78" y="-199.3" font-family="Arial" font-size="14.00">+ signup(SignUpRequest): void</text>
+<text text-anchor="middle" x="1188" y="-182.5" font-family="Arial" font-size="14.00">}</text>
+</g>
+<!-- AuthServiceImpl -->
+<g id="node8" class="node">
+<title>AuthServiceImpl</title>
+<polygon fill="lightgray" stroke="black" points="872.03,-381.7 872.03,-417.7 989.97,-417.7 989.97,-381.7 872.03,-381.7"/>
+<text text-anchor="middle" x="931" y="-395.6" font-family="Arial" font-size="14.00">AuthServiceImpl</text>
+</g>
+<!-- AuthServiceImpl&#45;&gt;AuthService -->
+<g id="edge3" class="edge">
+<title>AuthServiceImpl-&gt;AuthService</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M952.05,-381.5C977.75,-360.76 1022.83,-325.21 1063.42,-297.4 1075.42,-289.18 1088.29,-280.82 1101.05,-272.8"/>
+<polygon fill="none" stroke="black" points="1102.85,-275.8 1109.49,-267.54 1099.15,-269.86 1102.85,-275.8"/>
+<text text-anchor="middle" x="1099.21" y="-301.6" font-family="Arial" font-size="14.00">implements</text>
+</g>
+<!-- JwtService -->
+<g id="node9" class="node">
+<title>JwtService</title>
+<polygon fill="lightgray" stroke="black" points="774.86,-179.1 774.86,-261.5 1023.14,-261.5 1023.14,-179.1 774.86,-179.1"/>
+<text text-anchor="middle" x="899" y="-244.9" font-family="Arial" font-size="14.00">JwtService</text>
+<polyline fill="none" stroke="black" points="774.86,-236.7 1023.14,-236.7"/>
+<text text-anchor="start" x="782.86" y="-204.1" font-family="Arial" font-size="14.00">+ generateToken(UserDetails): String</text>
+<text text-anchor="start" x="782.86" y="-187.3" font-family="Arial" font-size="14.00">+ validateToken(String): boolean</text>
+</g>
+<!-- AuthServiceImpl&#45;&gt;JwtService -->
+<g id="edge4" class="edge">
+<title>AuthServiceImpl-&gt;JwtService</title>
+<path fill="none" stroke="black" d="M927.87,-381.37C923.38,-356.48 914.92,-309.58 908.32,-272.96"/>
+<polygon fill="black" stroke="black" points="911.82,-272.67 906.6,-263.45 904.93,-273.91 911.82,-272.67"/>
+</g>
+<!-- UserRepository -->
+<g id="node11" class="node">
+<title>UserRepository</title>
+<polygon fill="lightgray" stroke="black" points="1815.58,-241.1 1698.42,-241.1 1698.42,-237.1 1694.42,-237.1 1694.42,-233.1 1698.42,-233.1 1698.42,-207.5 1694.42,-207.5 1694.42,-203.5 1698.42,-203.5 1698.42,-199.5 1815.58,-199.5 1815.58,-241.1"/>
+<polyline fill="none" stroke="black" points="1698.42,-237.1 1702.42,-237.1 1702.42,-233.1 1698.42,-233.1"/>
+<polyline fill="none" stroke="black" points="1698.42,-207.5 1702.42,-207.5 1702.42,-203.5 1698.42,-203.5"/>
+<text text-anchor="middle" x="1757" y="-224.5" font-family="Arial" font-size="14.00">{«interface»</text>
+<text text-anchor="middle" x="1757" y="-207.7" font-family="Arial" font-size="14.00">UserRepository}</text>
+</g>
+<!-- AuthServiceImpl&#45;&gt;UserRepository -->
+<g id="edge5" class="edge">
+<title>AuthServiceImpl-&gt;UserRepository</title>
+<path fill="none" stroke="black" d="M947.99,-381.41C962.36,-367.96 984.2,-350.14 1007,-341.2 1076.96,-313.77 1609.39,-299.63 1680,-273.9 1696.03,-268.06 1711.92,-258.11 1725.06,-248.42"/>
+<polygon fill="black" stroke="black" points="1727.1,-251.27 1732.9,-242.4 1722.84,-245.71 1727.1,-251.27"/>
+</g>
+<!-- RoleRepository -->
+<g id="node12" class="node">
+<title>RoleRepository</title>
+<polygon fill="lightgray" stroke="black" points="1469.19,-241.1 1352.81,-241.1 1352.81,-237.1 1348.81,-237.1 1348.81,-233.1 1352.81,-233.1 1352.81,-207.5 1348.81,-207.5 1348.81,-203.5 1352.81,-203.5 1352.81,-199.5 1469.19,-199.5 1469.19,-241.1"/>
+<polyline fill="none" stroke="black" points="1352.81,-237.1 1356.81,-237.1 1356.81,-233.1 1352.81,-233.1"/>
+<polyline fill="none" stroke="black" points="1352.81,-207.5 1356.81,-207.5 1356.81,-203.5 1352.81,-203.5"/>
+<text text-anchor="middle" x="1411" y="-224.5" font-family="Arial" font-size="14.00">{«interface»</text>
+<text text-anchor="middle" x="1411" y="-207.7" font-family="Arial" font-size="14.00">RoleRepository}</text>
+</g>
+<!-- AuthServiceImpl&#45;&gt;RoleRepository -->
+<g id="edge6" class="edge">
+<title>AuthServiceImpl-&gt;RoleRepository</title>
+<path fill="none" stroke="black" d="M949.14,-381.21C963.66,-368.21 985.13,-351.07 1007,-341.2 1061.98,-316.39 1081.95,-330.59 1140,-314.2 1160.95,-308.28 1164.93,-302.87 1186,-297.4 1250.47,-280.68 1272.11,-298.5 1334,-273.9 1349.62,-267.69 1365.23,-257.87 1378.27,-248.39"/>
+<polygon fill="black" stroke="black" points="1380.19,-251.32 1386.07,-242.51 1375.98,-245.73 1380.19,-251.32"/>
+</g>
+<!-- PermissionRepository -->
+<g id="node13" class="node">
+<title>PermissionRepository</title>
+<polygon fill="lightgray" stroke="black" points="1662.42,-241.1 1505.58,-241.1 1505.58,-237.1 1501.58,-237.1 1501.58,-233.1 1505.58,-233.1 1505.58,-207.5 1501.58,-207.5 1501.58,-203.5 1505.58,-203.5 1505.58,-199.5 1662.42,-199.5 1662.42,-241.1"/>
+<polyline fill="none" stroke="black" points="1505.58,-237.1 1509.58,-237.1 1509.58,-233.1 1505.58,-233.1"/>
+<polyline fill="none" stroke="black" points="1505.58,-207.5 1509.58,-207.5 1509.58,-203.5 1505.58,-203.5"/>
+<text text-anchor="middle" x="1584" y="-224.5" font-family="Arial" font-size="14.00">{«interface»</text>
+<text text-anchor="middle" x="1584" y="-207.7" font-family="Arial" font-size="14.00">PermissionRepository}</text>
+</g>
+<!-- AuthServiceImpl&#45;&gt;PermissionRepository -->
+<g id="edge7" class="edge">
+<title>AuthServiceImpl-&gt;PermissionRepository</title>
+<path fill="none" stroke="black" d="M948.42,-381.45C962.86,-368.22 984.59,-350.66 1007,-341.2 1080.31,-310.25 1106.91,-333.95 1184,-314.2 1205.08,-308.8 1208.76,-302.16 1230,-297.4 1341.92,-272.29 1377.22,-307.14 1487,-273.9 1507.08,-267.82 1527.73,-257.32 1544.79,-247.29"/>
+<polygon fill="black" stroke="black" points="1546.35,-250.43 1553.09,-242.26 1542.72,-244.45 1546.35,-250.43"/>
+</g>
+<!-- UserDetailsServiceImpl -->
+<g id="node10" class="node">
+<title>UserDetailsServiceImpl</title>
+<polygon fill="lightgray" stroke="black" points="1025.48,-366.9 1025.48,-432.5 1316.52,-432.5 1316.52,-366.9 1025.48,-366.9"/>
+<text text-anchor="middle" x="1171" y="-415.9" font-family="Arial" font-size="14.00">UserDetailsServiceImpl</text>
+<polyline fill="none" stroke="black" points="1025.48,-407.7 1316.52,-407.7"/>
+<text text-anchor="start" x="1033.48" y="-375.1" font-family="Arial" font-size="14.00">+ loadUserByUsername(String): UserDetails</text>
+</g>
+<!-- UserDetailsServiceImpl&#45;&gt;UserRepository -->
+<g id="edge8" class="edge">
+<title>UserDetailsServiceImpl-&gt;UserRepository</title>
+<path fill="none" stroke="black" d="M1316.78,-377.28C1421.1,-358.57 1563.17,-326.06 1680,-273.9 1695.11,-267.16 1710.42,-257.41 1723.38,-248.14"/>
+<polygon fill="black" stroke="black" points="1725.16,-251.17 1731.13,-242.42 1721.01,-245.54 1725.16,-251.17"/>
+</g>
+</g>
+</svg>

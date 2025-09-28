@@ -1,0 +1,184 @@
+@startuml FixManager_Backend_Auth_Users
+
+package "com.fixmanager.users.entity" {
+  class UserEntity {
+    - Long id
+    - String username
+    - String password
+    - String email
+    - boolean enabled
+    - boolean accountNonExpired
+    - boolean accountNonLocked
+    - boolean credentialsNonExpired
+    - Set<RoleEntity> roles
+  }
+  class RoleEntity {
+    - Long id
+    - String roleName
+    - Set<PermissionEntity> permissions
+  }
+  class PermissionEntity {
+    - Long id
+    - String permissionName
+  }
+  UserEntity "1" *-- "*" RoleEntity
+  RoleEntity "1" *-- "*" PermissionEntity
+}
+
+package "com.fixmanager.users.dto" {
+  class UserRequest {
+    - String username
+    - String email
+    - String password
+    - boolean enabled
+    - List<String> roles
+    + Builder ...
+  }
+  class UserResponse {
+    - Long id
+    - String username
+    - String email
+    - List<String> roles
+    + Builder ...
+  }
+  class RoleRequest
+  class RoleResponse
+  class PermissionRequest
+  class PermissionResponse
+}
+
+package "com.fixmanager.users.repository" {
+  interface UserRepository {
+    + Optional<UserEntity> findByUsername(String)
+    + UserEntity save(UserEntity)
+    + Optional<UserEntity> findById(Long)
+    + List<UserEntity> findAll()
+    + void deleteById(Long)
+  }
+  interface RoleRepository
+  interface PermissionRepository
+}
+
+package "com.fixmanager.users.mapper" {
+  class UserMapper {
+    + UserEntity toEntity(UserRequest)
+    + UserResponse toResponse(UserEntity)
+  }
+  class RoleMapper {
+    + RoleEntity toEntity(RoleRequest)
+    + RoleResponse toResponse(RoleEntity)
+  }
+  class PermissionMapper {
+    + PermissionEntity toEntity(PermissionRequest)
+    + PermissionResponse toResponse(PermissionEntity)
+  }
+  UserMapper --> UserRequest
+  UserMapper --> UserResponse
+  UserMapper --> UserEntity
+  UserMapper --> RoleMapper
+  RoleMapper --> PermissionMapper
+}
+
+package "com.fixmanager.users.service" {
+  interface UserService {
+    + Optional<UserEntity> findByUsername(String)
+    + UserResponse save(UserEntity)
+    + UserResponse getById(Long)
+    + List<UserResponse> getAll()
+    + UserResponse update(Long, UserRequest)
+    + void delete(Long)
+    + boolean existsByUsername(String)
+  }
+  class UserServiceImpl {
+    - UserRepository userRepository
+    - UserMapper userMapper
+  }
+  UserService <|.. UserServiceImpl
+  UserServiceImpl --> UserRepository
+  UserServiceImpl --> UserMapper
+}
+
+' --- Paquete auth: usa UserService (no duplica entidades)
+package "com.fixmanager.auth" {
+  class AuthenticationService {
+    + LoginResponse login(LoginRequest)
+    + void register(UserRequest)
+  }
+  class AuthenticationServiceImpl {
+    - UserService userService
+    - PasswordEncoder passwordEncoder
+    - JwtUtils jwtUtils
+    - UserMapper userMapper
+    + LoginResponse login(LoginRequest)
+    + void register(UserRequest)
+  }
+
+  class LoginRequest { 
+    + String username; 
+    + String password 
+    }
+  class LoginResponse { 
+    + String token; 
+    + String username 
+    }
+
+  AuthenticationService <|.. AuthenticationServiceImpl
+  AuthenticationServiceImpl --> UserService
+  AuthenticationServiceImpl --> JwtUtils
+  AuthenticationServiceImpl --> UserMapper
+}
+
+' --- Paquete security
+package "com.fixmanager.security" {
+  class JwtUtils {
+    + String generateToken(String username, Set<RoleEntity> roles)
+    + String getUsernameFromToken(String token)
+    + boolean validateToken(String token)
+  }
+
+  class CustomUserDetails implements org.springframework.security.core.userdetails.UserDetails {
+    - UserEntity user
+    + getUsername(), getPassword(), getAuthorities(), isEnabled(), ...
+  }
+
+  class CustomUserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+    - UserService userService
+    + UserDetails loadUserByUsername(String username)
+  }
+
+  class JwtAuthenticationFilter extends OncePerRequestFilter {
+    - JwtUtils jwtUtils
+    - CustomUserDetailsService userDetailsService
+    + doFilterInternal(...)
+  }
+
+  class SecurityConfig {
+    + PasswordEncoder passwordEncoder()
+    + AuthenticationManager authenticationManager(...)
+    + SecurityFilterChain securityFilterChain(HttpSecurity)
+  }
+
+  JwtAuthenticationFilter --> JwtUtils
+  JwtAuthenticationFilter --> CustomUserDetailsService
+  CustomUserDetailsService --> UserService
+  SecurityConfig --> JwtAuthenticationFilter
+  SecurityConfig --> CustomUserDetailsService
+  SecurityConfig --> JwtUtils
+}
+
+' --- Controller layer
+package "com.fixmanager.auth.controller" {
+  class AuthController {
+    - AuthenticationService authService
+    + ResponseEntity<LoginResponse> login(LoginRequest)
+    + ResponseEntity<Void> register(UserRequest)
+  }
+  AuthController --> AuthenticationService
+}
+
+' cross references
+AuthController --> SecurityConfig : uses (endpoints)
+UserServiceImpl --> UserRepository
+AuthenticationServiceImpl --> UserService
+
+@enduml

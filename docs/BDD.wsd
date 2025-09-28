@@ -1,0 +1,100 @@
+@startuml
+!theme plain
+
+entity users {
+  * id : SERIAL <<PK>>
+  --
+  username : VARCHAR(100) <<UQ>>
+  password : VARCHAR(255)
+  full_name : VARCHAR(150)
+  role : VARCHAR(20) <<CHK>>
+  is_active : BOOLEAN
+}
+
+entity clients {
+  * id : SERIAL <<PK>>
+  --
+  name : VARCHAR(150)
+  email : VARCHAR(100)
+  phone : VARCHAR(20)
+  address : TEXT
+}
+
+entity device_types {
+  * id : SERIAL <<PK>>
+  --
+  name : VARCHAR(100) <<UQ>>
+}
+
+entity devices {
+  * id : SERIAL <<PK>>
+  --
+  client_id : INT <<FK>>
+  device_type_id : INT <<FK>>
+  brand : VARCHAR(100)
+  model : VARCHAR(100)
+  serial_number : VARCHAR(100)
+}
+
+entity statuses {
+  * id : SERIAL <<PK>>
+  --
+  name : VARCHAR(50) <<UQ>>
+  is_final : BOOLEAN
+  order_index : INT
+}
+
+entity service_orders {
+  * id : SERIAL <<PK>>
+  --
+  client_id : INT <<FK>>
+  device_id : INT <<FK>>
+  secretary_id : INT <<FK>>
+  technician_id : INT <<FK>>
+  status_id : INT <<FK>>
+  service_type : VARCHAR(20) <<CHK>>
+  created_at : TIMESTAMP
+}
+
+entity service_order_status_history {
+  * id : SERIAL <<PK>>
+  --
+  service_order_id : INT <<FK>>
+  status_id : INT <<FK>>
+  changed_by : INT <<FK>>
+  changed_at : TIMESTAMP
+}
+
+entity service_tasks {
+  * id : SERIAL <<PK>>
+  --
+  service_order_id : INT <<FK>>
+  description : TEXT
+  start_date : DATE
+  end_date : DATE
+}
+
+entity task_images {
+  * id : SERIAL <<PK>>
+  --
+  service_task_id : INT <<FK>>
+  file_name : TEXT
+  file_path : TEXT
+  uploaded_at : TIMESTAMP
+  comment : TEXT
+}
+
+' Relaciones
+clients ||--o{ devices
+device_types ||--o{ devices
+clients ||--o{ service_orders
+devices ||--o{ service_orders
+users ||--o{ service_orders : secretary_id
+users ||--o{ service_orders : technician_id
+statuses ||--o{ service_orders
+service_orders ||--o{ service_order_status_history
+statuses ||--o{ service_order_status_history
+users ||--o{ service_order_status_history : changed_by
+service_orders ||--o{ service_tasks
+service_tasks ||--o{ task_images
+@enduml

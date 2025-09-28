@@ -1,0 +1,54 @@
+@startuml SecurityConfigUML
+title: "SecurityConfig"
+
+class SecurityConfig {
+  + configure(HttpSecurity): void
+  + authenticationManagerBean(): AuthenticationManager
+  + passwordEncoder(): PasswordEncoder
+  + corsFilter(): CorsFilter
+}
+
+class JwtAuthenticationFilter {
+  + doFilterInternal(): void
+}
+
+class JwtTokenProvider {
+  + generateToken(): String
+  + validateToken(): boolean
+  + getUsernameFromToken(): String
+}
+
+class UserDetailsServiceImpl {
+  + loadUserByUsername(): UserDetails
+}
+
+class AuthEntryPointJwt {
+  + commence(): void
+}
+
+interface WebSecurityConfigurerAdapter << (D,orchid) >> {
+  + configure(HttpSecurity): void
+}
+
+interface AuthenticationManager << (D,orchid) >> {
+  + authenticate(): Authentication
+}
+
+interface PasswordEncoder << (D,orchid) >> {
+  + encode(): String
+  + matches(): boolean
+}
+
+' Relaciones
+SecurityConfig --|> WebSecurityConfigurerAdapter
+SecurityConfig --> JwtAuthenticationFilter
+SecurityConfig --> JwtTokenProvider
+SecurityConfig --> UserDetailsServiceImpl
+SecurityConfig --> AuthEntryPointJwt
+SecurityConfig ..> AuthenticationManager : «crea»
+SecurityConfig ..> PasswordEncoder : «crea»
+
+JwtAuthenticationFilter --> JwtTokenProvider
+JwtAuthenticationFilter --> UserDetailsServiceImpl
+
+@enduml

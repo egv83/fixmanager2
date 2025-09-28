@@ -1,0 +1,370 @@
+@startuml
+' Title
+title: FixManager Backend - Arquitectura UML (Completa) - PlantUML
+
+' Legend / notas
+'note top
+'  Tablas existentes: users, clients, devices, service_orders, service_tasks,
+'  parts_inventory, used_parts, service_costs
+'  Roles: ADMIN, TECNICO, SECRETARIA (posible sistema de permisos).
+'  Patrones aplicados: Factory, Builder, Singleton (config/integraciones),
+'  Adapter, Facade, Decorator (notificaciones), Observer, State (ordenes),
+'  Strategy (pricing), Repository (Spring Data), DTOs, Exceptions.
+'end note
+
+' -------------------------
+package config {
+    class ApplicationProperties {
+        +String datasourceUrl
+        +String datasourceUser
+        +String datasourcePass
+        +String jwtSecret
+    }
+    class IntegrationConfig <<Singleton>> {
+        +getEmailClient()
+        +getExternalApiClient()
+    }
+    class SecurityConfig
+}
+
+' -------------------------
+package "auth" {
+    interface AuthService {
+        +AuthResponse login(AuthRequest req)
+        +UserDTO register(UserCreateDTO dto)
+    }
+    class AuthServiceImpl
+    class JwtProvider <<Singleton>> {
+        +String generateToken(User user)
+        +boolean validateToken(String token)
+    }
+
+    class AuthController {
+        +login(req)
+        +register(req)
+    }
+
+    class AuthRequest
+    class AuthResponse
+    class UserDTO
+    class UserCreateDTO
+}
+
+' -------------------------
+package "user" {
+    ' Entity mapped to table users
+    class UserEntity {
+        - Long id
+        - String username
+        - String email
+        - String passwordHash
+        - UserState state
+        - Set<RoleEntity> roles
+    }
+    class RoleEntity {
+        - Long id
+        - RoleEnum roleName
+        - Set<PermissionEntity> permissions
+    }
+    class PermissionEntity {
+        - Long id
+        - String name
+    }
+
+    interface UserRepository
+    interface UserService {
+        +UserDTO findById(Long id)
+        +UserDTO create(UserCreateDTO dto)
+    }
+    class UserServiceImpl
+
+    class UserDTO
+    class UserCreateDTO
+    class UserBuilder <<Builder>>
+    class UserState
+    class ActiveState
+    class SuspendedState
+
+    class UserMapper {
+        +UserEntity toEntity(UserCreateDTO dto)
+        +UserDTO toDTO(UserEntity entity)
+    }
+    class RoleMapper {
+        +RoleEntity toEntity(RoleDTO dto)
+        +RoleDTO toDTO(RoleEntity entity)
+    }
+    class PermissionMapper {
+        +PermissionEntity toEntity(PermissionDTO dto)
+        +PermissionDTO toDTO(PermissionEntity entity)
+    }
+
+    class RoleDTO
+    class PermissionDTO
+}
+
+' -------------------------
+package "clients" {
+    ' Entity mapped to table clients
+    class ClientEntity {
+        - Long id
+        - String name
+        - String contactEmail
+        - String contactPhone
+        - List<DeviceEntity> devices
+    }
+    interface ClientRepository
+    interface ClientService {
+        +ClientDTO create(ClientCreateDTO dto)
+        +ClientDTO findById(Long id)
+    }
+    class ClientServiceImpl
+    class ClientController
+    class ClientDTO
+    class ClientCreateDTO
+    class ClientMapper {
+        +ClientEntity toEntity(ClientCreateDTO dto)
+        +ClientDTO toDTO(ClientEntity entity)
+    }
+}
+
+' -------------------------
+package "devices" {
+    ' Entity mapped to table devices
+    class DeviceEntity {
+        - Long id
+        - String serial
+        - String model
+        - String brand
+        - ClientEntity owner
+    }
+    interface DeviceRepository
+    interface DeviceService {
+        +DeviceDTO create(DeviceCreateDTO dto)
+        +List<DeviceDTO> findByClient(Long clientId)
+    }
+    class DeviceServiceImpl
+    class DeviceController
+    class DeviceDTO
+    class DeviceCreateDTO
+    class DeviceMapper {
+        +DeviceEntity toEntity(DeviceCreateDTO dto)
+        +DeviceDTO toDTO(DeviceEntity entity)
+    }
+}
+
+' -------------------------
+package "service" {
+    ' service_orders table
+    class ServiceOrderEntity {
+        - Long id
+        - String code
+        - ClientEntity client
+        - DeviceEntity device
+        - UserEntity createdBy
+        - Date createdAt
+        - OrderState state
+        - List<ServiceTaskEntity> tasks
+        - List<ServiceCostEntity> costs
+        - double total
+        +void changeState(OrderState newState)
+        +void attach(RepairObserver obs)
+    }
+    class ServiceTaskEntity {
+        - Long id
+        - String description
+        - UserEntity assignedTo
+        - TaskStatus status
+        - double estimatedHours
+    }
+    class ServiceCostEntity {
+        - Long id
+        - String description
+        - double amount
+    }
+
+    interface ServiceOrderRepository
+    interface ServiceTaskRepository
+    interface ServiceCostRepository
+
+    interface ServiceOrderService {
+        +ServiceOrderDTO create(ServiceOrderCreateDTO dto)
+        +void changeState(Long id, String state)
+        +ServiceOrderDTO findById(Long id)
+    }
+    class ServiceOrderServiceImpl
+
+    class ServiceOrderController
+    class ServiceOrderDTO
+    class ServiceOrderCreateDTO
+    class ServiceOrderMapper {
+        +ServiceOrderEntity toEntity(ServiceOrderCreateDTO dto)
+        +ServiceOrderDTO toDTO(ServiceOrderEntity entity)
+    }
+}
+
+' -------------------------
+package "inventory" {
+    ' parts_inventory table
+    class PartInventoryEntity {
+        - Long id
+        - String sku
+        - String name
+        - int quantity
+        - double unitPrice
+    }
+    ' used_parts table (association to service tasks/orders)
+    class UsedPartEntity {
+        - Long id
+        - PartInventoryEntity part
+        - int quantityUsed
+        - ServiceTaskEntity task
+    }
+
+    interface PartInventoryRepository
+    interface UsedPartRepository
+
+    interface InventoryService {
+        +void consumePart(Long partId, int qty, Long taskId)
+        +List<PartDTO> listAvailable()
+    }
+    class InventoryServiceImpl
+
+    class PartDTO
+    class InventoryMapper {
+        +PartInventoryEntity toEntity(PartDTO dto)
+        +PartDTO toDTO(PartInventoryEntity entity)
+    }
+}
+
+' -------------------------
+package "notifications" {
+    interface NotificationSender {
+        +void send(NotificationEvent ev)
+    }
+    class EmailNotificationAdapter <<Adapter>> {
+        +send(NotificationEvent ev)
+    }
+    class SmsNotificationAdapter <<Adapter>> {
+        +send(NotificationEvent ev)
+    }
+    class NotificationFacade <<Facade>> {
+        +notifyOrderCreated(ServiceOrderDTO dto)
+        +notifyOrderStateChanged(ServiceOrderDTO dto)
+    }
+    abstract class NotificationDecorator <<Decorator>> {
+        -NotificationSender delegate
+        +send(NotificationEvent ev)
+    }
+    class LoggingNotificationDecorator extends NotificationDecorator
+    class NotificationEvent
+}
+
+' -------------------------
+package "patterns" {
+    ' Factory / Builder / State / Strategy / Observer references
+    class OrderFactory <<Factory>> {
+        +createOrder(String type)
+    }
+    class OrderBuilder <<Builder>> {
+        +withClient(...)
+        +withDevice(...)
+        +build()
+    }
+    interface OrderState {
+        +handle(ServiceOrderEntity order)
+    }
+    class PendingState implements OrderState
+    class InProgressState implements OrderState
+    class CompletedState implements OrderState
+
+    interface PricingStrategy {
+        +double calculate(ServiceOrderEntity order)
+    }
+    class NormalPricingStrategy implements PricingStrategy
+    class UrgentPricingStrategy implements PricingStrategy
+
+    interface RepairObserver {
+        +update(ServiceOrderEntity order)
+    }
+    class TechnicianObserver implements RepairObserver
+    class ClientObserver implements RepairObserver
+}
+
+' -------------------------
+package "exceptions" {
+    class EntityNotFoundException extends RuntimeException
+    class InsufficientPartsException extends RuntimeException
+    class UnauthorizedException extends RuntimeException
+    class ValidationException extends RuntimeException
+}
+
+' -------------------------
+' Relationships and mappings
+UserEntity "1" o-- "*" RoleEntity : roles
+RoleEntity "1" o-- "*" PermissionEntity : permissions
+
+ClientEntity "1" o-- "*" DeviceEntity : devices
+ClientEntity "1" o-- "*" ServiceOrderEntity : orders
+
+DeviceEntity "1" o-- "*" ServiceOrderEntity : orders
+
+ServiceOrderEntity "1" o-- "*" ServiceTaskEntity : tasks
+ServiceOrderEntity "1" o-- "*" ServiceCostEntity : costs
+ServiceOrderEntity "1" o-- "*" UsedPartEntity : usedParts
+ServiceTaskEntity "1" o-- "*" UsedPartEntity : usedParts
+
+ServiceOrderEntity ..|> OrderState
+ServiceOrderEntity --|> RepairObserver : attach/detach
+
+ServiceOrderServiceImpl --> ServiceOrderRepository
+ServiceOrderServiceImpl --> InventoryService
+ServiceOrderServiceImpl --> NotificationFacade
+ServiceOrderController --> ServiceOrderService
+
+AuthServiceImpl --> UserRepository
+AuthServiceImpl --> JwtProvider
+
+UserServiceImpl --> UserRepository
+UserController --> UserService
+UserServiceImpl --> UserMapper
+UserServiceImpl --> RoleMapper
+UserServiceImpl --> PermissionMapper
+
+InventoryServiceImpl --> PartInventoryRepository
+InventoryServiceImpl --> UsedPartRepository
+
+NotificationFacade --> NotificationSender
+LoggingNotificationDecorator --> NotificationSender
+
+OrderFactory --> OrderBuilder
+OrderBuilder --> ServiceOrderEntity
+
+ServiceOrderEntity --> PricingStrategy
+ServiceOrderEntity ..> PricingStrategy : uses
+
+' Show mapping to DB tables (stereotype <<table>>)
+class Users <<table>>
+class Clients <<table>>
+class Devices <<table>>
+class Service_Orders <<table>>
+class Service_Tasks <<table>>
+class Parts_Inventory <<table>>
+class Used_Parts <<table>>
+class Service_Costs <<table>>
+
+Users .. UserEntity
+Clients .. ClientEntity
+Devices .. DeviceEntity
+Service_Orders .. ServiceOrderEntity
+Service_Tasks .. ServiceTaskEntity
+Parts_Inventory .. PartInventoryEntity
+Used_Parts .. UsedPartEntity
+Service_Costs .. ServiceCostEntity
+
+' Notes about roles/permissions
+note bottom
+  Roles: ADMIN (full), TECNICO (tareas, estado), SECRETARIA (crear/gestionar citas/ordenes)
+  Implementación sugerida: Role (enum) + Permission entidad many-to-many para control fino.
+end note
+
+@enduml

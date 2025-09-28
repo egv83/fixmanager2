@@ -1,0 +1,79 @@
+@startuml
+title: "Authentication Entities"
+
+package "authentication.entity" {
+    class UserEntity {
+        - id: Long
+        - username: String
+        - password: String
+        - roles: Set<RoleEntity>
+    }
+
+    class RoleEntity {
+        - id: Long
+        - name: String
+        - permissions: Set<PermissionEntity>
+    }
+
+    class PermissionEntity {
+        - id: Long
+        - name: String
+    }
+
+    UserEntity "1" --> "*" RoleEntity
+    RoleEntity "1" --> "*" PermissionEntity
+}
+
+package "authentication.dto" {
+    class LoginRequest {
+        - username: String
+        - password: String
+    }
+
+    class LoginResponse {
+        - token: String
+        - userInfo: Object
+    }
+
+    class SignUpRequest {
+        - username: String
+        - password: String
+        - roles: Set<String>
+    }
+}
+
+package "authentication.service" {
+    interface AuthService {
+        +login(LoginRequest): LoginResponse
+        +signup(SignUpRequest): void
+    }
+
+    class AuthServiceImpl {
+    }
+
+    class JwtService {
+        +generateToken(UserDetails): String
+        +validateToken(String): boolean
+    }
+
+    class UserDetailsServiceImpl {
+        +loadUserByUsername(String): UserDetails
+    }
+
+    AuthServiceImpl --> AuthService
+    AuthServiceImpl --> JwtService
+    AuthServiceImpl --> UserRepository
+    UserDetailsServiceImpl --> UserRepository
+}
+
+package "authentication.repository" {
+    interface UserRepository
+    interface RoleRepository
+    interface PermissionRepository
+}
+
+AuthServiceImpl --> RoleRepository
+AuthServiceImpl --> PermissionRepository
+
+@enduml
+

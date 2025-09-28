@@ -29,7 +29,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="is_actived" type="BOOLEAN" defaultValueBoolean="true"/>
-            <column name="createAt" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="is_account_non_locked" type="BOOLEAN" defaultValueBoolean="true"/>
+            <column name="is_account_non_expired" type="BOOLEAN" defaultValueBoolean="true"/>
+            <column name="is_credentials_non_expired" type="BOOLEAN" defaultValueBoolean="true"/>
+            <column name="fecha_creacion" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
         </createTable>
     </changeSet>
 

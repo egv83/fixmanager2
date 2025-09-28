@@ -1,0 +1,36 @@
+@startuml
+title: "SignUp Proces"
+
+class SignUpRequest {
+  +username: String
+  +password: String
+  +roles: Set<String>
+}
+
+class UserEntity {
+  +username
+  +password
+  +roles
+}
+
+class UserEntityBuilder {
+  -username
+  -password
+  -roles
+  +username(String)
+  +password(String)
+  +roles(Set<RoleEntity>)
+  +build(): UserEntity
+}
+
+class AuthServiceImpl {
+  +signup(SignUpRequest)
+}
+
+SignUpRequest --> UserEntityBuilder
+UserEntityBuilder --> UserEntity
+AuthServiceImpl --> UserEntityBuilder
+AuthServiceImpl --> JwtService
+AuthServiceImpl --> UserRepository
+
+@enduml

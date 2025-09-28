@@ -1,0 +1,246 @@
+@startuml
+title FixManager Backend - Arquitectura UML Modularizada
+
+package config {
+    class ApplicationProperties
+    class IntegrationConfig <<Singleton>>
+    class JwtProvider <<Singleton>>
+    class SecurityConfig
+}
+
+package auth {
+    package dtos {
+        class AuthRequest
+        class AuthResponse
+    }
+    package services {
+        interface AuthService
+    }
+    package services.impl {
+        class AuthServiceImpl
+    }
+    package controllers {
+        class AuthController
+    }
+}
+
+package user {
+    package entities {
+        class UserEntity
+        class RoleEntity
+        class PermissionEntity
+    }
+    package dtos {
+        class UserDTO
+        class UserCreateDTO
+        class RoleDTO
+        class PermissionDTO
+    }
+    package repositories {
+        interface UserRepository
+    }
+    package services {
+        interface UserService
+    }
+    package services.impl {
+        class UserServiceImpl
+    }
+    package mappers {
+        class UserMapper
+        class RoleMapper
+        class PermissionMapper
+    }
+    package controllers {
+        class UserController
+    }
+}
+
+package clients {
+    package entities {
+        class ClientEntity
+    }
+    package dtos {
+        class ClientDTO
+        class ClientCreateDTO
+    }
+    package repositories {
+        interface ClientRepository
+    }
+    package services {
+        interface ClientService
+    }
+    package services.impl {
+        class ClientServiceImpl
+    }
+    package mappers {
+        class ClientMapper
+    }
+    package controllers {
+        class ClientController
+    }
+}
+
+package devices {
+    package entities {
+        class DeviceEntity
+    }
+    package dtos {
+        class DeviceDTO
+        class DeviceCreateDTO
+    }
+    package repositories {
+        interface DeviceRepository
+    }
+    package services {
+        interface DeviceService
+    }
+    package services.impl {
+        class DeviceServiceImpl
+    }
+    package mappers {
+        class DeviceMapper
+    }
+    package controllers {
+        class DeviceController
+    }
+}
+
+package service {
+    package entities {
+        class ServiceOrderEntity
+        class ServiceTaskEntity
+        class ServiceCostEntity
+    }
+    package dtos {
+        class ServiceOrderDTO
+        class ServiceOrderCreateDTO
+        class ServiceTaskDTO
+    }
+    package repositories {
+        interface ServiceOrderRepository
+        interface ServiceTaskRepository
+        interface ServiceCostRepository
+    }
+    package services {
+        interface ServiceOrderService
+    }
+    package services.impl {
+        class ServiceOrderServiceImpl
+    }
+    package mappers {
+        class ServiceOrderMapper
+    }
+    package controllers {
+        class ServiceOrderController
+    }
+}
+
+package inventory {
+    package entities {
+        class PartInventoryEntity
+        class UsedPartEntity
+    }
+    package dtos {
+        class PartDTO
+    }
+    package repositories {
+        interface PartInventoryRepository
+        interface UsedPartRepository
+    }
+    package services {
+        interface InventoryService
+    }
+    package services.impl {
+        class InventoryServiceImpl
+    }
+    package mappers {
+        class InventoryMapper
+    }
+}
+
+package notifications {
+    interface NotificationSender
+    class EmailNotificationAdapter <<Adapter>>
+    class SmsNotificationAdapter <<Adapter>>
+    class NotificationFacade <<Facade>>
+    abstract class NotificationDecorator <<Decorator>>
+    class LoggingNotificationDecorator
+    class NotificationEvent
+}
+
+package patterns {
+    package creational {
+        class OrderFactory <<Factory>>
+        class OrderBuilder <<Builder>>
+        class SingletonExamples <<Singleton>>
+    }
+    package structural {
+        class AdapterExamples <<Adapter>>
+        class NotificationFacade <<Facade>>
+        class LoggingNotificationDecorator <<Decorator>>
+    }
+    package behavioral {
+        interface RepairObserver <<Observer>>
+        class TechnicianObserver
+        class ClientObserver
+        interface OrderState <<State>>
+        class PendingState
+        class InProgressState
+        class CompletedState
+        interface PricingStrategy <<Strategy>>
+        class NormalPricingStrategy
+        class UrgentPricingStrategy
+    }
+}
+
+package exceptions {
+    class EntityNotFoundException
+    class InsufficientPartsException
+    class UnauthorizedException
+    class ValidationException
+}
+
+' Relaciones importantes
+user.entities.UserEntity "1" o-- "*" user.entities.RoleEntity : roles
+user.entities.RoleEntity "1" o-- "*" user.entities.PermissionEntity : permissions
+
+clients.entities.ClientEntity "1" o-- "*" devices.entities.DeviceEntity : devices
+clients.entities.ClientEntity "1" o-- "*" service.entities.ServiceOrderEntity : orders
+
+devices.entities.DeviceEntity "1" o-- "*" service.entities.ServiceOrderEntity : orders
+
+service.entities.ServiceOrderEntity "1" o-- "*" service.entities.ServiceTaskEntity : tasks
+service.entities.ServiceOrderEntity "1" o-- "*" service.entities.ServiceCostEntity : costs
+service.entities.ServiceOrderEntity "1" o-- "*" inventory.entities.UsedPartEntity : usedParts
+service.entities.ServiceTaskEntity "1" o-- "*" inventory.entities.UsedPartEntity : usedParts
+
+service.entities.ServiceOrderEntity ..|> patterns.behavioral.OrderState
+service.entities.ServiceOrderEntity --|> patterns.behavioral.RepairObserver : attach/detach
+
+service.services.impl.ServiceOrderServiceImpl --> service.repositories.ServiceOrderRepository
+service.services.impl.ServiceOrderServiceImpl --> inventory.services.InventoryService
+service.services.impl.ServiceOrderServiceImpl --> notifications.NotificationFacade
+service.controllers.ServiceOrderController --> service.services.ServiceOrderService
+
+auth.services.impl.AuthServiceImpl --> user.repositories.UserRepository
+auth.services.impl.AuthServiceImpl --> config.JwtProvider
+
+user.services.impl.UserServiceImpl --> user.repositories.UserRepository
+user.services.impl.UserServiceImpl --> user.mappers.UserMapper
+user.services.impl.UserServiceImpl --> user.mappers.RoleMapper
+user.services.impl.UserServiceImpl --> user.mappers.PermissionMapper
+user.controllers.UserController --> user.services.UserService
+
+inventory.services.impl.InventoryServiceImpl --> inventory.repositories.PartInventoryRepository
+inventory.services.impl.InventoryServiceImpl --> inventory.repositories.UsedPartRepository
+
+notifications.NotificationFacade --> notifications.NotificationSender
+notifications.LoggingNotificationDecorator --> notifications.NotificationSender
+
+patterns.creational.OrderFactory --> patterns.creational.OrderBuilder
+patterns.creational.OrderBuilder --> service.entities.ServiceOrderEntity
+
+service.entities.ServiceOrderEntity --> patterns.behavioral.PricingStrategy
+service.entities.ServiceOrderEntity ..> patterns.behavioral.PricingStrategy : uses
+
+@enduml
