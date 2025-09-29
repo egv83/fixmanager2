@@ -2,6 +2,7 @@ package com.ochobits.fixmanager.user.domain.service;
 
 import com.ochobits.fixmanager.user.application.dto.CreateUserRequest;
 import com.ochobits.fixmanager.user.application.dto.UserResponse;
+import com.ochobits.fixmanager.user.domain.enums.AccountStateEnum;
 import com.ochobits.fixmanager.user.domain.model.User;
 import com.ochobits.fixmanager.user.domain.service.Interfaces.UserCreateService;
 import com.ochobits.fixmanager.user.domain.service.Interfaces.UserFindService;
@@ -32,6 +33,7 @@ public class UserService implements UserCreateService, UserFindService {
 
         User userTmp = userMapper.toModel(request);
         User.UserBuilder user = userTmp.toBuilder()
+                .accountState(AccountStateEnum.ACTIVO)
                 .isAccountNonExpired(true)
                 .isAccountNonLocked(true)
                 .isCredentialsNonExpired(true)

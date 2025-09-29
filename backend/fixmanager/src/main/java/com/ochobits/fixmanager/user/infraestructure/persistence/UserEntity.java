@@ -39,8 +39,11 @@ public class UserEntity implements Serializable {
     @Column(nullable = false)
     private RoleEnum rol;
 
+    //@Column(name = "is_actived")
+    //private Boolean isEnabled;
+
     @Column(name = "is_actived")
-    private Boolean isEnabled;
+    private String isEnabled;
 
     @Column(name = "is_account_non_locked")
     private Boolean isAccountNonLocked;
@@ -56,7 +59,7 @@ public class UserEntity implements Serializable {
 
     public UserEntity(){}
 
-    public UserEntity(String userName, String password, String fullName, RoleEnum rol, Boolean isEnabled, Boolean isAccountNonLocked, Boolean isAccountNonExpired, Boolean isCredentialsNonExpired, LocalDateTime createdAt){
+    public UserEntity(String userName, String password, String fullName, RoleEnum rol, String isEnabled, Boolean isAccountNonLocked, Boolean isAccountNonExpired, Boolean isCredentialsNonExpired, LocalDateTime createdAt){
         this.userName = userName;
         this.password = password;
         this.fullName = fullName;

@@ -6,9 +6,9 @@ services:
     container_name: fixmanager_pgsql_db
     #restart: always #para que se reinicie simpre por cualquier motivo ideal para producción
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}         # Usuario default de postgres
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # Contraseña para usuario default de postgres
-      POSTGRES_DB: ${POSTGRES_DB}             # BDD defualt postgres
+      POSTGRES_USER: postgres #${POSTGRES_USER}         # Usuario default de postgres
+      POSTGRES_PASSWORD: P@sswordM@ster2025*#  #${POSTGRES_PASSWORD} # Contraseña para usuario default de postgres
+      POSTGRES_DB: postgres #${POSTGRES_DB}             # BDD defualt postgres
       
       # 3. Método de autenticación (recomendado para producción)
       #POSTGRES_HOST_AUTH_METHOD: scram-sha-256

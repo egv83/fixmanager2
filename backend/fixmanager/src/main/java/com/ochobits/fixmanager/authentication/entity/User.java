@@ -46,8 +46,8 @@ public class User implements Serializable {
     @Column(name = "rol", nullable = false)
     private String rol;
 
-    @Column(name = "is_actived")
-    private Boolean actived;
+    //@Column(name = "is_actived")
+    //private Boolean actived;
 
     @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;

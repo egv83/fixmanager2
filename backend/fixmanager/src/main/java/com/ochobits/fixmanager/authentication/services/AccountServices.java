@@ -7,25 +7,25 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@Service
-public class AccountServices {
+//@Service
+//Spublic class AccountServices {
 
-    private final UserJpaRepository userJpaRepository;
+//    private final UserJpaRepository userJpaRepository;
 
-    public AccountServices(UserJpaRepository userJpaRepository) {
-        this.userJpaRepository = userJpaRepository;
-    }
+//    public AccountServices(UserJpaRepository userJpaRepository) {
+//        this.userJpaRepository = userJpaRepository;
+//    }
 
-    public Long create(User user){
-        user.setActived(true);
-        user.setFechaCreacion(LocalDateTime.now());
+//    public Long create(User user){
+        //user.setActived(true);
+//        user.setFechaCreacion(LocalDateTime.now());
 //        return userRepository.save(user).getId();
-        return null;
-    }
+//        return null;
+//    }
 
-    public Optional<User> getUserById(Long id){
+//    public Optional<User> getUserById(Long id){
 //        return userRepository.findById(id);
-        return null;
-    }
+//        return null;
+//    }
 
-}
+//}

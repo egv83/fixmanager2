@@ -2,6 +2,7 @@ package com.ochobits.fixmanager.user.infraestructure.mapper.impl;
 
 import com.ochobits.fixmanager.user.application.dto.CreateUserRequest;
 import com.ochobits.fixmanager.user.application.dto.UserResponse;
+import com.ochobits.fixmanager.user.domain.enums.AccountStateEnum;
 import com.ochobits.fixmanager.user.domain.enums.RoleEnum;
 import com.ochobits.fixmanager.user.domain.model.User;
 import com.ochobits.fixmanager.user.infraestructure.mapper.UserMapper;
@@ -36,7 +37,7 @@ public class UserMapperImpl implements UserMapper {
                 .fullName(entity.getFullName())
 //                .roles(strngToRoleEnum(entity.getRol())) // PARA MAPEAR UN LIST DE ROLES
                 .role(entity.getRol())
-//                .accountState(entity.getIsEnabled())
+                .accountState(stringToAccountStatusEnum(entity.getIsEnabled()))
                 .isAccountNonExpired(entity.getIsAccountNonExpired())
                 .isAccountNonLocked(entity.getIsAccountNonLocked())
                 .isCredentialsNonExpired(entity.getIsCredentialsNonExpired())
@@ -56,7 +57,7 @@ public class UserMapperImpl implements UserMapper {
                 .fullName(model.getFullName())
 //                .roles(model.getRoles())      // PARA MAPEAR UN LIST DE ROLES
                 .role(rolesToString(model.getRole()))
-//                .enable(model.getAccountState().name())
+                .enable(accountStatusToString(model.getAccountState()))
                 .createdAt(model.getCreatedAt())
                 .build();
     }
@@ -67,7 +68,7 @@ public class UserMapperImpl implements UserMapper {
         entity.setUserName(model.getUserName());
         entity.setPassword(model.getPassword());
         entity.setFullName(model.getFullName());
-//        entity.setIsEnabled(model.getAccountState());
+        entity.setIsEnabled(model.getAccountState().name());
         entity.setRol(model.getRole());
         entity.setIsAccountNonExpired(model.getIsAccountNonExpired());
         entity.setIsAccountNonLocked(model.getIsAccountNonLocked());
@@ -97,6 +98,33 @@ public class UserMapperImpl implements UserMapper {
 
         try {
             return roleEnum.name();
+        }catch (IllegalArgumentException e){
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    @Override
+    public AccountStateEnum stringToAccountStatusEnum(String accountStatus) {
+        if(Objects.isNull(accountStatus) || accountStatus.isBlank()){
+            return null;
+        }
+
+        try{
+            return AccountStateEnum.valueOf(accountStatus.toUpperCase().trim());
+        }catch (IllegalArgumentException e){
+            throw new IllegalArgumentException(e);
+        }
+
+    }
+
+    @Override
+    public String accountStatusToString(AccountStateEnum accountStateEnum) {
+        if(Objects.isNull(accountStateEnum)){
+            return null;
+        }
+
+        try{
+            return accountStateEnum.name();
         }catch (IllegalArgumentException e){
             throw new IllegalArgumentException(e);
         }

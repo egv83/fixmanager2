@@ -43,4 +43,16 @@
         </sql>
     </changeSet>
 
+    <!--<changeSet id="user-20250928182-modify-column" author="Esteban Vallejo" runOnChange="true">
+        <sql>
+            ALTER TABLE users
+            MODIFY COLUMN is_actived TYPE VARCHAR(255);
+        </sql>
+    </changeSet> -->
+
+    <changeSet id="user-20250928182-modify-column" author="Esteban Vallejo" runOnChange="true">
+        <modifyDataType tableName="users" columnName="is_actived"
+        newDataType="VARCHAR(20)"/>
+    </changeSet>
+
 </databaseChangeLog>

@@ -2,6 +2,7 @@ package com.ochobits.fixmanager.user.infraestructure.mapper;
 
 import com.ochobits.fixmanager.user.application.dto.CreateUserRequest;
 import com.ochobits.fixmanager.user.application.dto.UserResponse;
+import com.ochobits.fixmanager.user.domain.enums.AccountStateEnum;
 import com.ochobits.fixmanager.user.domain.enums.RoleEnum;
 import com.ochobits.fixmanager.user.domain.model.User;
 import com.ochobits.fixmanager.user.infraestructure.persistence.UserEntity;
@@ -22,6 +23,9 @@ public interface UserMapper {
     RoleEnum stringToRoleEnum(String roleString);
 
     String rolesToString(RoleEnum roleEnum);
+
+    AccountStateEnum stringToAccountStatusEnum(String accountStatus);
+    String accountStatusToString(AccountStateEnum accountStateEnum);
 
 //    Set<RoleEnum> strngToRoleEnum(List<String> roleString);
 //
