@@ -1,6 +1,7 @@
 package com.ochobits.fixmanager.user.infraestructure.mapper;
 
 import com.ochobits.fixmanager.user.application.dto.CreateUserRequest;
+import com.ochobits.fixmanager.user.application.dto.UpdateRequest;
 import com.ochobits.fixmanager.user.application.dto.UserResponse;
 import com.ochobits.fixmanager.user.domain.enums.AccountStateEnum;
 import com.ochobits.fixmanager.user.domain.enums.RoleEnum;
@@ -13,6 +14,8 @@ import java.util.Set;
 public interface UserMapper {
 
     User toModel(CreateUserRequest request);
+
+//    User updateToModel(UpdateRequest request, UserEntity entity);
 
     User toModel(UserEntity entity);
 

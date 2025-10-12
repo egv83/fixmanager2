@@ -1,6 +1,7 @@
 package com.ochobits.fixmanager.user.infraestructure.mapper.impl;
 
 import com.ochobits.fixmanager.user.application.dto.CreateUserRequest;
+import com.ochobits.fixmanager.user.application.dto.UpdateRequest;
 import com.ochobits.fixmanager.user.application.dto.UserResponse;
 import com.ochobits.fixmanager.user.domain.enums.AccountStateEnum;
 import com.ochobits.fixmanager.user.domain.enums.RoleEnum;
@@ -53,7 +54,7 @@ public class UserMapperImpl implements UserMapper {
 
         return UserResponse.builder()
                 .id(model.getId())
-                .userName(model.getFullName())
+                .userName(model.getUserName())
                 .fullName(model.getFullName())
 //                .roles(model.getRoles())      // PARA MAPEAR UN LIST DE ROLES
                 .role(rolesToString(model.getRole()))

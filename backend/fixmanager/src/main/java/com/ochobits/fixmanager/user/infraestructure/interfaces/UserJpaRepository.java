@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface UserJpaRepository extends JpaRepository<UserEntity, Long> {
 
     Optional<UserEntity> findByUserName(String userName);
+    Optional<UserEntity> findByUserNameAndPassword(String userName,String password);
+
     Boolean existsByUserName(String userName);
 
     @Query("SELECT u FROM UserEntity u WHERE u.rol = :role")
