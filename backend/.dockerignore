@@ -18,6 +18,7 @@ Thumbs.db
 /mvnw
 /mvnw.cmd
 /.mvn
+/.mvn/
 
 # Docker
 Dockerfile*
