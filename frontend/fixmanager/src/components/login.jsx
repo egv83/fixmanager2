@@ -6,7 +6,11 @@ import {Password} from "primereact/password";
 import {Button} from "primereact/button";
 import {Dropdown} from "primereact/dropdown";
 import {Message} from "primereact/message";
-import {Divider} from "primereact/divider"
+import {Divider} from "primereact/divider";
+//IMPORT AXIOS
+import axios from 'axios';
+
+const API_URL = 'http://localhost:8080/api';
 
 
 const Login = () => {
