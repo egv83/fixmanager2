@@ -16,10 +16,7 @@ import {Divider} from 'primereact/divider'
 const CreateUser = () => {
 
     const [formData, setFormData] = useState({
-        userName: '',
-        password: '',
-        fullName: '',
-        rol: ''
+        userName: '', password: '', fullName: '', rol: ''/*,email:''*/
     })
 
     const [error, setError] = useState('')
@@ -28,28 +25,27 @@ const CreateUser = () => {
     // const {user} = useAuth()
     const navigate = useNavigate();
 
-    const roles = [
-        {label: 'Administrador', value: 'admin'},
-        {label: 'Técnico', value: 'technical'},
-        {label: 'Secretaria', value: 'secretary'}
+    const roles = [{label: 'Administrador', value: 'admin'}, {
+        label: 'Técnico',
+        value: 'technical'
+    }, {label: 'Secretaria', value: 'secretary'}
         // { label: 'Usuario', value: 'user' }
     ]
 
-    return (
-        // <Layout>
+    return (// <Layout>
         <div className="p-4">
             <h1>Create User</h1>
             <Card title="Crear Usuario" className="shadow-2"
-                  header={
-                      <div className="flex align-items-center gap-2">
-                          <i className="pi pi-user-plus text-6xl text-primary" style={{fontSize: '4rem'}}/>
-                          <span>Crear Usuario</span>
-                      </div>
-                  }
+                  header={<div className="flex align-items-center gap-2">
+                      <i className="pi pi-user-plus text-6xl text-primary" style={{fontSize: '4rem'}}/>
+                      <span>Crear Usuario</span>
+                  </div>}
             >
-                <form onSubmit=""  className="p-fluid grid formgrid">
-                    {error && <Message severity="error" text={error} className="w-full mb-3"/>} {/*className="col-12 mb-3"*/}
-                    {success && <Message severity="success" text={success} className="w-full mb-3"/>} {/*className="col-12 mb-3"*/}
+                <form onSubmit="" className="p-fluid grid formgrid">
+                    {error &&
+                        <Message severity="error" text={error} className="w-full mb-3"/>} {/*className="col-12 mb-3"*/}
+                    {success && <Message severity="success" text={success}
+                                         className="w-full mb-3"/>} {/*className="col-12 mb-3"*/}
 
                     {/*Username*/}
                     <div className="field col-12 md:col-6">
@@ -69,7 +65,7 @@ const CreateUser = () => {
 
                     {/*Password*/}
                     <div className="field col-12 md:col-6">
-                        <label  htmlFor="password" className="block text-900 font-medium mb-2">
+                        <label htmlFor="password" className="block text-900 font-medium mb-2">
                             Contraseña
                             <span className="text-900 text-sm">*</span> {/*className="text-red-500"*/}
                         </label>
@@ -83,7 +79,7 @@ const CreateUser = () => {
                                   size="large"
                                   feedback
                                   required
-                                  disabled={loading} />
+                                  disabled={loading}/>
                     </div>
 
                     {/*Fullname*/}
@@ -102,7 +98,7 @@ const CreateUser = () => {
                     </div>
 
                     {/*email*/}
-                    <div className="field col-12 md:col-6">
+                    {/*<div className="field col-12 md:col-6">
                         <label htmlFor="email" className="block text-900 font-medium mb-2">
                             Email
                             <span className="text-red-500">*</span>
@@ -114,7 +110,7 @@ const CreateUser = () => {
                                    placeholder="Ingrese su email"
                                    disabled={loading}
                         />
-                    </div>
+                    </div> */}
 
                     {/*Role*/}
                     <div className="field col-12 md:col-6">
@@ -132,7 +128,7 @@ const CreateUser = () => {
                         />
                     </div>
 
-                    <Divider className="col-12" />
+                    <Divider className="col-12"/>
 
                     {/* Botones */}
                     <div className="field col-12 flex gap-3 justify-content-end">
@@ -152,15 +148,30 @@ const CreateUser = () => {
                         />
                     </div>
 
-                    {loading && (
-                        <div className="col-12 flex justify-center">
-                            <ProgressSpinner style={{ width: '40px', height: '40px' }} />
-                        </div>
-                    )}
+                    {loading && (<div className="col-12 flex justify-center">
+                        <ProgressSpinner style={{width: '40px', height: '40px'}}/>
+                    </div>)}
 
                 </form>
-
             </Card>
+
+            {/* Información del JSON que se enviará */}
+            <Card title="Información de Envío" className="mt-4 shadow-1">
+                <div className="text-sm">
+                    <p><strong>Endpoint:</strong> POST http://localhost:8080/api/users/</p>
+                    <p><strong>JSON que se enviará:</strong></p>
+                    <pre className="bg-gray-100 p-3 rounded mt-2 text-xs">
+                        {`{
+                            "userName": "${formData.userName}",
+                            "password": "${formData.password}",
+                            "fullName": "${formData.fullName}",
+                            "email":"${formData.email}"
+                            "rol": "${formData.rol}"
+                        }`}
+            </pre>
+                </div>
+            </Card>
+
         </div>
         // </Layout>*
     )
