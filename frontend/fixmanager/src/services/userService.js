@@ -1,7 +1,7 @@
 import apiConfig from "./apiConfig.js";
-import CONSTANT from "../config/constants.js"
+import * as CONSTANT from "../config/constants.js"
 
-const userService = {
+export const userService = {
     /**
      * @param {CreateUserRequest} userData
      * @returns {Promise<{success: boolean, user?: User, error?: string}>}
@@ -9,7 +9,8 @@ const userService = {
 
     async createUser(userData){
         try {
-            const response = await apiConfig.post(CONSTANT.USER_PATH, userData)
+            // console.log("ENDPONITS USER PATH: "+CONSTANT.ENDPOINTS.USER_PATH)
+            const response = await apiConfig.post(CONSTANT.ENDPOINTS.USER_PATH, userData)
             const data = response.data
 
             return {
@@ -24,8 +25,21 @@ const userService = {
             }
         }
 
-    }
+    },
+    //
+    // async getUsers(){
+    //     try {
+    //         const response = await apiConfig.get(CONSTANT.USER_PATH)
+    //         return{
+    //             success:true,
+    //             users:response.data.users || response.data
+    //         }
+    //     }catch (error){
+    //         return {
+    //             success:false,
+    //             error:error.response?.data?.message || 'Error al obtener usuarios'
+    //         }
+    //     }
+    // }
 
 }
-
-export default userService;

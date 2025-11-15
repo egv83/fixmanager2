@@ -10,6 +10,7 @@ import {Dropdown} from 'primereact/dropdown'
 import {Message} from 'primereact/message'
 import {ProgressSpinner} from 'primereact/progressspinner'
 import {Divider} from 'primereact/divider'
+import {userService} from "../services/userService.js";
 // import { userService } from '../services/userService'
 
 
@@ -25,12 +26,76 @@ const CreateUser = () => {
     // const {user} = useAuth()
     const navigate = useNavigate();
 
-    const roles = [{label: 'Administrador', value: 'admin'}, {
-        label: 'Técnico',
-        value: 'technical'
-    }, {label: 'Secretaria', value: 'secretary'}
+    const roles = [
+        {label: 'Administrador', value: 'admin'},
+        {label: 'Técnico', value: 'tecnico'},
+        {label: 'Secretaria', value: 'secretaria'}
         // { label: 'Usuario', value: 'user' }
     ]
+
+    const handleInputChange = (field,value) => {
+        setFormData(prevFormData=> ({
+            ...prevFormData,           // Mantiene todos los valores existentes
+            [field]:value   // Actualiza solo el campo específico
+        }))
+        if(error) setError('')
+        if(success) setSuccess('')
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        setLoading(true)
+        setError('')
+        setSuccess('')
+
+        console.log("User: "+formData.userName + " ROL: "+formData.rol);
+        console.log("FULL NAME: "+formData.fullName + " PASSWORD: "+formData.password);
+
+        if(!formData.userName || !formData.password || !formData.fullName
+            // || !formData.rol
+        ) {
+            setError('Todos los campos son obligatorios')
+            setLoading(false)
+            return
+        }
+
+        if(formData.password.length < 6){
+            setError('La contraseña debe tener al menos 6 caracteres')
+            setLoading(false)
+            return
+        }
+
+        try{
+            const result = await userService.createUser({
+                userName: formData.userName,
+                password: formData.password,
+                fullName: formData.fullName,
+                // email: formData.email,
+                rol: formData.rol
+            })
+
+            if(result.success){
+                setSuccess('Usuario creado exitosamente')
+                // LIMPIAR FORMULARIO
+                setFormData({
+                    userName: '', password: '', fullName: '', rol: ''/*,email:''*/
+                })
+                // REDIRECCIONAR A DASHBOARD
+                // setTimeout(() => {
+                //     navigate('/dashboard')
+                // }, 2000)
+            }else {
+                setError(result.error)
+            }
+        }catch (err) {
+            setError('Error al conectar con el servidor')
+        }finally {
+            setLoading(false)
+        }
+
+    }
+
+    // const isFormValid = formData.userName && formData.password && formData.fullName && formData.rol
 
     return (// <Layout>
         <div className="p-4">
@@ -41,7 +106,8 @@ const CreateUser = () => {
                       <span>Crear Usuario</span>
                   </div>}
             >
-                <form onSubmit="" className="p-fluid grid formgrid">
+                <form onSubmit={handleSubmit} className="p-fluid grid formgrid">
+                {/*<form onSubmit="" className="p-fluid grid formgrid">*/}
                     {error &&
                         <Message severity="error" text={error} className="w-full mb-3"/>} {/*className="col-12 mb-3"*/}
                     {success && <Message severity="success" text={success}
@@ -54,10 +120,10 @@ const CreateUser = () => {
                             <span className="text-900 text-sm">*</span> {/*className="text-red-500"*/}
                         </label>
                         <InputText id="username" value={formData.userName}
-                                   onChange={(e) => setFormData({...formData, userName: e.target.value})}
+                                   onChange={(e) => handleInputChange('userName', e.target.value)}
                                    className="w-full"
                                    size="large"
-                                   placeholder="Ingrese su usuario"
+                                   placeholder="Ingrese el nombre de usuario"
                                    required
                                    disabled={loading}
                         />
@@ -70,8 +136,7 @@ const CreateUser = () => {
                             <span className="text-900 text-sm">*</span> {/*className="text-red-500"*/}
                         </label>
                         <Password id="password" value={formData.password}
-                                  onChange={(e) => setFormData({...formData, password: e.target.value})}
-                                  value={formData.password}
+                                  onChange={(e) => handleInputChange('password', e.target.value)}
                                   className="w-full"
                                   inputClassName="w-full"
                                   placeholder="Ingrese la contraseña"
@@ -89,7 +154,7 @@ const CreateUser = () => {
                             <span className="text-red-500">*</span>
                         </label>
                         <InputText id="fullName" value={formData.fullName}
-                                   onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                                   onChange={(e) => handleInputChange('fullName', e.target.value)}
                                    className="w-full"
                                    size="large"
                                    placeholder="Ingrese su nombre completo"

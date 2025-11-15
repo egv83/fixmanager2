@@ -2,6 +2,13 @@ server:
   port: 8080
 
 spring:
+
+###################ESTO ES TEMPORAL HATA TENER SPRINT SECURITY###################################
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+################################################################################################
+
   datasource:
 #    url: jdbc:postgresql://${APP_DB_HOST}:${APP_DB_PORT}/${APP_DB_NAME}
 #    username: ${APP_DB_USER}
