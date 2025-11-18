@@ -4,5 +4,6 @@ export const TOKEN_KEY = 'token';
 
 export const ENDPOINTS = {
     AUTH: '${API_URL}/auth',
-    USER_PATH: '/api/users'
+    USER_PATH: '/api/users',
+    LOGIN_PATH: '/auth/v1/login'
 }

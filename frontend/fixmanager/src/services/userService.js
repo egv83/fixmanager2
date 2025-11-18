@@ -15,7 +15,7 @@ export const userService = {
 
             return {
                 success:true,
-                user:response.data.user || response.data
+                user:response.data.user || data
             }
 
         }catch (error){

@@ -7,8 +7,10 @@ import {Button} from "primereact/button";
 import {Dropdown} from "primereact/dropdown";
 import {Message} from "primereact/message";
 import {Divider} from "primereact/divider";
+import axios from "axios";
+import {LoginService as loginService} from "../services/loginService.js";
 //IMPORT AXIOS
-import axios from 'axios';
+// import axios from 'axios';
 
 const API_URL = 'http://localhost:8080/api';
 
@@ -21,12 +23,54 @@ const Login = () => {
     const [error, setError] = useState(null);
     // const {login} = useAuth()
     const navigate = useNavigate();
+    const [success, setSuccess] = useState('')
 
-    const roles = [
-        {label: 'Administrador', value: 'admin'},
-        {label: 'Técnico', value: 'tecnico'},
-        {label: 'Secretaria', value: 'secretaria'}
-    ]
+    const [loginData, setLoginData] = useState({
+        userName: '', password: ''
+    })
+
+    const handleImputCahnges = (field,value) =>{
+        setLoginData(prevFormData=>({
+            ...prevFormData,
+            [field]:value
+        }))
+        if(error) setError('')
+        if(success) setSuccess('')
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        console.log("User: "+loginData.userName + " PASSWORD: "+loginData.password);
+
+        if(!loginData.userName || !loginData.password){
+            setError('Todos los campos son obligatorios');
+            return
+        }
+
+        try{
+            const result = await loginService.login({
+                userName: loginData.userName,
+                password: loginData.password
+            })
+
+            if(result.success){
+                setSuccess('Login exitoso')
+                navigate('/dashboard')
+
+            }else {
+                setError(result.error)
+            }
+        }catch (error){
+            setError('Error al conectar con el servidor')
+        }
+
+    }
+
+    // const roles = [
+    //     {label: 'Administrador', value: 'admin'},
+    //     {label: 'Técnico', value: 'tecnico'},
+    //     {label: 'Secretaria', value: 'secretaria'}
+    // ]
 
     const demoUsers = [
         {username: 'admin', password: 'admin123', role: 'admin', label: 'Admin: admin / admin123'},
@@ -35,29 +79,29 @@ const Login = () => {
         //{username: 'user', password: 'user123', role: 'user', label: 'Usuario: user / user123'}
     ]
 
-    const handlelogin = (e) => {
-        e.preventDefault()
-        setError('')
-
-        const users = {
-            admin: {username: 'admin', password: 'admin123', role: 'admin', name: 'Administrador del Sistema'},
-            tech: {username: 'tech', password: 'tech123', role: 'technical', name: 'Usuario Técnico'},
-            secretary: {username: 'secretary', password: 'secret123', role: 'secretaria', name: 'Secretaria'}
-            //user: {username: 'user', password: 'user123', role: 'user', name: 'Usuario Regular'}
-        }
-
-        // const userKey = Object.keys(users).find(key =>
-        //     users[key].username === username && users[key].password === password
-        // );
-
-        // if(userKey && users[userKey].role === role) {
-        //     login(users[userKey])
-        //     navigate('/dashboard')
-        // }else {
-        //     setError('Credenciales invalidas o rol incorrecto')
-        // }
-
-    }
+    // const handlelogin = (e) => {
+    //     e.preventDefault()
+    //     setError('')
+    //
+    //     const users = {
+    //         admin: {username: 'admin', password: 'admin123', role: 'admin', name: 'Administrador del Sistema'},
+    //         tech: {username: 'tech', password: 'tech123', role: 'technical', name: 'Usuario Técnico'},
+    //         secretary: {username: 'secretary', password: 'secret123', role: 'secretaria', name: 'Secretaria'}
+    //         //user: {username: 'user', password: 'user123', role: 'user', name: 'Usuario Regular'}
+    //     }
+    //
+    //     // const userKey = Object.keys(users).find(key =>
+    //     //     users[key].username === username && users[key].password === password
+    //     // );
+    //
+    //     // if(userKey && users[userKey].role === role) {
+    //     //     login(users[userKey])
+    //     //     navigate('/dashboard')
+    //     // }else {
+    //     //     setError('Credenciales invalidas o rol incorrecto')
+    //     // }
+    //
+    // }
 
     const fillDemoCredentials = (demoUser) => {
         setUsername(demoUser.username)
@@ -76,13 +120,14 @@ const Login = () => {
                           </div>
                       }
                 >
-                    <form onSubmit={handlelogin} className="login-form p-fluid">
+                    <form onSubmit={handleSubmit} className="login-form p-fluid">
                         {error && <Message severity="error" text={error} className="w-full mb-3"/>}
 
+                        {/*userName*/}
                         <div className="field mb-4">
                             <label htmlFor="username" className="block text-900 font-medium mb-2">Usuario</label>
-                            <InputText id="usename" value={username}
-                                       onChange={(e) => setUsername(e.target.value)}
+                            <InputText id="usename" value={loginData.userName}
+                                       onChange={(e) => handleImputCahnges('userName', e.target.value)}
                                        className="w-full"
                                        size="large"
                                        placeholder="Ingrese su usuario"
@@ -90,12 +135,13 @@ const Login = () => {
                             />
                         </div>
 
+                        {/*password*/}
                         <div className="field mb-4">
                             <label htmlFor="password" className="block text-900 font-medium mb-2">Contraseña</label>
                             <Password
                                 id="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                value={loginData.password}
+                                onChange={(e) => handleImputCahnges('password', e.target.value)}
                                 className="w-full"
                                 inputClassName="w-full"
                                 feedback={false}
@@ -106,27 +152,27 @@ const Login = () => {
                             />
                         </div>
 
-                        <div className="field mb-4">
-                            <label htmlFor="role" className="block text-900 font-medium mb-2">Role</label>
-                            <Dropdown
-                                id="role"
-                                value={role}
-                                options={roles}
-                                onChange={(e) => setRole(e.target.value)}
-                                placeholder="Ingrese su role"
-                                className="w-full"
-                                size="large"
-                                required
-                            />
-                        </div>
+                        {/*rol*/}
+                        {/*<div className="field mb-4">*/}
+                        {/*    <label htmlFor="role" className="block text-900 font-medium mb-2">Role</label>*/}
+                        {/*    <Dropdown*/}
+                        {/*        id="role"*/}
+                        {/*        value={role}*/}
+                        {/*        options={roles}*/}
+                        {/*        onChange={(e) => setRole(e.target.value)}*/}
+                        {/*        placeholder="Ingrese su role"*/}
+                        {/*        className="w-full"*/}
+                        {/*        size="large"*/}
+                        {/*        required*/}
+                        {/*    />*/}
+                        {/*</div>*/}
 
-                        <Button label="Iniciar sesion" variant="primary" type="submit"
+                        {/*BOTON*/}
+                        <Button label="Iniciar sesion" variant="primary"
+                                type="submit"
                                 icon="pi pi-sign-in"
                                 className="w-full mb-4"
                                 size="large"
-                                onClick={()=>{
-                                    console.log("User: "+username + " ROL: "+role);
-                                }}
                         />
 
                         <Divider align="center">
