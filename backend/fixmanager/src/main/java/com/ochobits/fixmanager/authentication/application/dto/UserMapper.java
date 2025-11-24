@@ -1,6 +1,6 @@
 package com.ochobits.fixmanager.authentication.application.dto;
 
-import com.ochobits.fixmanager.authentication.entity.User;
+import com.ochobits.fixmanager.authentication.DEPRECADO.entity.User;
 
 public class UserMapper {
 

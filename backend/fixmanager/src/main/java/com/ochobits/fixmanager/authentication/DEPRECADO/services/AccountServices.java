@@ -1,11 +1,4 @@
-package com.ochobits.fixmanager.authentication.services;
-
-import com.ochobits.fixmanager.authentication.entity.User;
-import com.ochobits.fixmanager.user.infraestructure.interfaces.UserJpaRepository;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.Optional;
+package com.ochobits.fixmanager.authentication.DEPRECADO.services;
 
 //@Service
 //Spublic class AccountServices {

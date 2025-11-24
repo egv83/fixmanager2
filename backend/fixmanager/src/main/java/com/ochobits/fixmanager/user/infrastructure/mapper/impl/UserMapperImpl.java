@@ -1,13 +1,12 @@
-package com.ochobits.fixmanager.user.infraestructure.mapper.impl;
+package com.ochobits.fixmanager.user.infrastructure.mapper.impl;
 
 import com.ochobits.fixmanager.user.application.dto.CreateUserRequest;
-import com.ochobits.fixmanager.user.application.dto.UpdateRequest;
 import com.ochobits.fixmanager.user.application.dto.UserResponse;
 import com.ochobits.fixmanager.user.domain.enums.AccountStateEnum;
 import com.ochobits.fixmanager.user.domain.enums.RoleEnum;
 import com.ochobits.fixmanager.user.domain.model.User;
-import com.ochobits.fixmanager.user.infraestructure.mapper.UserMapper;
-import com.ochobits.fixmanager.user.infraestructure.persistence.UserEntity;
+import com.ochobits.fixmanager.user.infrastructure.mapper.UserMapper;
+import com.ochobits.fixmanager.user.infrastructure.persistence.UserEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;

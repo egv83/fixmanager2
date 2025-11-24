@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState, useRef} from "react";
 import {useNavigate} from "react-router-dom";
 import {Card} from "primereact/card";
 import {InputText} from "primereact/inputtext";
@@ -7,6 +7,8 @@ import {Button} from "primereact/button";
 import {Dropdown} from "primereact/dropdown";
 import {Message} from "primereact/message";
 import {Divider} from "primereact/divider";
+import {Dialog} from "primereact/dialog";
+import {Toast} from "primereact/toast";
 import axios from "axios";
 import {LoginService as loginService} from "../services/loginService.js";
 //IMPORT AXIOS
@@ -24,6 +26,12 @@ const Login = () => {
     // const {login} = useAuth()
     const navigate = useNavigate();
     const [success, setSuccess] = useState('')
+
+    // const [visible, setVisible] = useState(false);
+    const toastCenter = useRef(null);
+    const showMessage = (ref, severity,sumary,detail) => {
+        ref.current.show({ severity: severity, summary: sumary, detail: detail, life: 3000 });
+    };
 
     const [loginData, setLoginData] = useState({
         userName: '', password: ''
@@ -59,9 +67,12 @@ const Login = () => {
 
             }else {
                 setError(result.error)
+                // setVisible(true);
+                showMessage(toastCenter,'error','Error',error);
             }
-        }catch (error){
+        }catch (e){
             setError('Error al conectar con el servidor')
+            showMessage(toastCenter,'error','Error',error);
         }
 
     }
@@ -121,7 +132,17 @@ const Login = () => {
                       }
                 >
                     <form onSubmit={handleSubmit} className="login-form p-fluid">
-                        {error && <Message severity="error" text={error} className="w-full mb-3"/>}
+                        {/*{error && <Message severity="error" text={error} className="w-full mb-3"/>}*/}
+
+                        {/*<Dialog header="Error" visible={visible} onHide={()=> {if(!visible) return; setVisible(false);}}*/}
+                        {/*        modal*/}
+                        {/*        style={{ width: '50vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>*/}
+
+                        {/*    <p className="m-0"> {error} </p>*/}
+
+                        {/*</Dialog>*/}
+
+                        <Toast ref={toastCenter} position="center" />
 
                         {/*userName*/}
                         <div className="field mb-4">

@@ -1,9 +1,8 @@
-package com.ochobits.fixmanager.user.infraestructure.persistence;
+package com.ochobits.fixmanager.user.infrastructure.persistence;
 
 import com.ochobits.fixmanager.user.domain.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 

@@ -31,6 +31,14 @@ spring:
     enabled: true
     change-log: classpath:db/liquibase/db-changelog-master.xml
 
+security:
+  jwt:
+    key: fd85f40e8e4f1a7914cf7c77c6b505004627fbb5ad913d7a97e664e22d1432d3f1e65d6ccaa8a554a7b3b9f498df8b1efedeabf089fbeaf30bf5e811c599c642
+    expiration: 360000000000
+
+company:
+  name: WorldService
+
 logging:
   level:
     org.hibernate.SQL: DEBUG

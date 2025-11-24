@@ -1,6 +1,6 @@
-package com.ochobits.fixmanager.user.infraestructure.interfaces;
+package com.ochobits.fixmanager.user.infrastructure.interfaces;
 
-import com.ochobits.fixmanager.user.infraestructure.persistence.UserEntity;
+import com.ochobits.fixmanager.user.infrastructure.persistence.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

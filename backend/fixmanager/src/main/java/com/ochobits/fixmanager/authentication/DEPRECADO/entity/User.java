@@ -1,4 +1,4 @@
-package com.ochobits.fixmanager.authentication.entity;
+package com.ochobits.fixmanager.authentication.DEPRECADO.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

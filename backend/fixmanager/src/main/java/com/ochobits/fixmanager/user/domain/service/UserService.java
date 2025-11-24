@@ -1,5 +1,7 @@
 package com.ochobits.fixmanager.user.domain.service;
 
+import com.ochobits.fixmanager.authentication.infrastructure.interfaces.PasswordEncoder;
+import com.ochobits.fixmanager.shared.exception.UserNotFoundException;
 import com.ochobits.fixmanager.user.application.dto.CreateUserRequest;
 import com.ochobits.fixmanager.user.application.dto.PasswordUpdateRequest;
 import com.ochobits.fixmanager.user.application.dto.UpdateRequest;
@@ -8,9 +10,9 @@ import com.ochobits.fixmanager.user.domain.enums.AccountStateEnum;
 import com.ochobits.fixmanager.user.domain.model.User;
 import com.ochobits.fixmanager.user.domain.service.Interfaces.UserCreateService;
 import com.ochobits.fixmanager.user.domain.service.Interfaces.UserFindService;
-import com.ochobits.fixmanager.user.infraestructure.interfaces.UserJpaRepository;
-import com.ochobits.fixmanager.user.infraestructure.mapper.UserMapper;
-import com.ochobits.fixmanager.user.infraestructure.persistence.UserEntity;
+import com.ochobits.fixmanager.user.infrastructure.interfaces.UserJpaRepository;
+import com.ochobits.fixmanager.user.infrastructure.mapper.UserMapper;
+import com.ochobits.fixmanager.user.infrastructure.persistence.UserEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -22,10 +24,12 @@ public class UserService implements UserCreateService, UserFindService {
 
     private final UserJpaRepository userJpaRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserJpaRepository userJpaRepository, UserMapper userMapper) {
+    public UserService(UserJpaRepository userJpaRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userJpaRepository = userJpaRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -34,8 +38,10 @@ public class UserService implements UserCreateService, UserFindService {
             throw new RuntimeException("Usuario ya existe");
         }
 
+
         User userTmp = userMapper.toModel(request);
         User.UserBuilder user = userTmp.toBuilder()
+                .password(passwordEncoder.encode(userTmp.getPassword()))
                 .accountState(AccountStateEnum.ACTIVO)
                 .isAccountNonExpired(true)
                 .isAccountNonLocked(true)
@@ -98,7 +104,18 @@ public class UserService implements UserCreateService, UserFindService {
     }
 
     @Override
-    public Collection<User> findUserByUserName(String userName) {
+    public Collection<User> findUsersByUserName(String userName) {
         return List.of();
     }
+
+    @Override
+    public User findUserByUserName(String userName) {
+        return userMapper.toModel(userJpaRepository.findByUserName(userName)
+                .orElseThrow(()-> new UserNotFoundException("Usuario no encontrado: " + userName))
+        );
+    }
+
+
+
+
 }
