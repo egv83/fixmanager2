@@ -1,6 +1,7 @@
 export const API_URL = 'http://localhost:8080';
 
 export const TOKEN_KEY = 'token';
+export const USER_KEY = 'user';
 
 export const ENDPOINTS = {
     AUTH: '${API_URL}/auth',

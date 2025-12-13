@@ -1,127 +1,113 @@
-import {useState, useRef} from "react";
+import {useState, useRef, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import {Card} from "primereact/card";
 import {InputText} from "primereact/inputtext";
 import {Password} from "primereact/password";
 import {Button} from "primereact/button";
-import {Dropdown} from "primereact/dropdown";
 import {Message} from "primereact/message";
-import {Divider} from "primereact/divider";
-import {Dialog} from "primereact/dialog";
 import {Toast} from "primereact/toast";
-import axios from "axios";
-import {LoginService as loginService} from "../services/loginService.js";
-//IMPORT AXIOS
-// import axios from 'axios';
+import {useAuth} from '../context/AuthContext';
+import {LoginService} from "../services/LoginService.js";
+
 
 const API_URL = 'http://localhost:8080/api';
 
-
 const Login = () => {
 
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [role, setRole] = useState(null);
-    const [error, setError] = useState(null);
-    // const {login} = useAuth()
-    const navigate = useNavigate();
-    const [success, setSuccess] = useState('')
-
-    // const [visible, setVisible] = useState(false);
-    const toastCenter = useRef(null);
-    const showMessage = (ref, severity,sumary,detail) => {
-        ref.current.show({ severity: severity, summary: sumary, detail: detail, life: 3000 });
-    };
-
     const [loginData, setLoginData] = useState({
-        userName: '', password: ''
+        userName: '',
+        password: ''
     })
 
-    const handleImputCahnges = (field,value) =>{
-        setLoginData(prevFormData=>({
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const {login, isAuthenticated} = useAuth();
+    const navigate = useNavigate();
+    const toastCenter = useRef(null);
+
+    const showMessage = (severity, sumary, detail) => {
+        toastCenter.current.show({
+            severity: severity,
+            summary: sumary,
+            detail: detail,
+            life: 3000
+        });
+    };
+
+    const handleImputCahnges = (field, value) => {
+        console.log('Input cambiado:', field, value);
+        setLoginData(prevFormData => ({
             ...prevFormData,
-            [field]:value
+            [field]: value
         }))
-        if(error) setError('')
-        if(success) setSuccess('')
+        if (error) setError('');
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        console.log("User: "+loginData.userName + " PASSWORD: "+loginData.password);
+        e.preventDefault();
+        console.log('Submit iniciado');
+        setError('');
+        setLoading(true);
 
-        if(!loginData.userName || !loginData.password){
+        console.log("Datos de login:", loginData);
+
+        if (!loginData.userName || !loginData.password) {
             setError('Todos los campos son obligatorios');
-            return
+            showMessage('error', 'Error', error);
+            setLoading(false);
+            return;
         }
 
-        try{
-            const result = await loginService.login({
-                userName: loginData.userName,
-                password: loginData.password
-            })
+        try {
+            console.log('Llamando a LoginService...');
+            const result = await LoginService.login(loginData);
+            console.log('Resultado del login:', result);
 
-            if(result.success){
-                setSuccess('Login exitoso')
-                navigate('/dashboard')
+            if (result.success) {
+                console.log('Login exitoso, llamando a authContext.login');
+                console.log('User:', result.user);
+                console.log('Token:', result.token);
 
-            }else {
-                setError(result.error)
-                // setVisible(true);
-                showMessage(toastCenter,'error','Error',error);
+                login(result.user, result.token);
+
+                showMessage('success', 'Exito', 'Login exitoso', 'Bienvenido ' + result.user.fullName + '');
+
+                console.log('Redirigiendo a /dashboard en 1 segundo');
+                setTimeout(() => {
+                    navigate('/dashboard')
+                }, 1000);
+            } else {
+                console.log('Login fallido:', result.error);
+                setError(result.error);
+                showMessage('error', 'Error', result.error);
             }
-        }catch (e){
+
+        } catch (e) {
+            console.error('Error en handleSubmit:', e)
             setError('Error al conectar con el servidor')
-            showMessage(toastCenter,'error','Error',error);
+            showMessage('error', 'Error', error);
+        } finally {
+            setLoading(false)
+            console.log('Submit finalizado');
         }
 
     }
 
-    // const roles = [
-    //     {label: 'Administrador', value: 'admin'},
-    //     {label: 'Técnico', value: 'tecnico'},
-    //     {label: 'Secretaria', value: 'secretaria'}
-    // ]
+    // IMPORTANTE: isAuthenticated es una función, llámala con ()
+    useEffect(() => {
+        console.log('Login component mounted');
+        console.log('isAuthenticated:', isAuthenticated());
 
-    const demoUsers = [
-        {username: 'admin', password: 'admin123', role: 'admin', label: 'Admin: admin / admin123'},
-        {username: 'tech', password: 'tech123', role: 'tecnico', label: 'Técnico: tech / tech123'},
-        {username: 'secretary', password: 'secret123', role: 'secretaria', label: 'Secretaria: secretary / secret123'}
-        //{username: 'user', password: 'user123', role: 'user', label: 'Usuario: user / user123'}
-    ]
+        if (isAuthenticated()) {
+            console.log('Ya autenticado, redirigiendo a dashboard');
+            navigate('/dashboard');
+        }
+    }, [isAuthenticated, navigate])
 
-    // const handlelogin = (e) => {
-    //     e.preventDefault()
-    //     setError('')
-    //
-    //     const users = {
-    //         admin: {username: 'admin', password: 'admin123', role: 'admin', name: 'Administrador del Sistema'},
-    //         tech: {username: 'tech', password: 'tech123', role: 'technical', name: 'Usuario Técnico'},
-    //         secretary: {username: 'secretary', password: 'secret123', role: 'secretaria', name: 'Secretaria'}
-    //         //user: {username: 'user', password: 'user123', role: 'user', name: 'Usuario Regular'}
-    //     }
-    //
-    //     // const userKey = Object.keys(users).find(key =>
-    //     //     users[key].username === username && users[key].password === password
-    //     // );
-    //
-    //     // if(userKey && users[userKey].role === role) {
-    //     //     login(users[userKey])
-    //     //     navigate('/dashboard')
-    //     // }else {
-    //     //     setError('Credenciales invalidas o rol incorrecto')
-    //     // }
-    //
-    // }
-
-    const fillDemoCredentials = (demoUser) => {
-        setUsername(demoUser.username)
-        setPassword(demoUser.password)
-        setRole(demoUser.role)
-    }
 
     return (
         <div className="login-container">
+            <Toast ref={toastCenter} position="center"/>
             <div className="login-wrapper">
                 <Card className="login-card shadow-4"
                       header={
@@ -132,33 +118,33 @@ const Login = () => {
                       }
                 >
                     <form onSubmit={handleSubmit} className="login-form p-fluid">
-                        {/*{error && <Message severity="error" text={error} className="w-full mb-3"/>}*/}
+                        {/*{error && (*/}
+                        {/*    <Message*/}
+                        {/*        severity="error"*/}
+                        {/*        text={error}*/}
+                        {/*        className="w-full mb-3"*/}
+                        {/*    />*/}
+                        {/*)}*/}
 
-                        {/*<Dialog header="Error" visible={visible} onHide={()=> {if(!visible) return; setVisible(false);}}*/}
-                        {/*        modal*/}
-                        {/*        style={{ width: '50vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>*/}
-
-                        {/*    <p className="m-0"> {error} </p>*/}
-
-                        {/*</Dialog>*/}
-
-                        <Toast ref={toastCenter} position="center" />
 
                         {/*userName*/}
                         <div className="field mb-4">
                             <label htmlFor="username" className="block text-900 font-medium mb-2">Usuario</label>
-                            <InputText id="usename" value={loginData.userName}
-                                       onChange={(e) => handleImputCahnges('userName', e.target.value)}
-                                       className="w-full"
-                                       size="large"
-                                       placeholder="Ingrese su usuario"
-                                       required
+                            <InputText
+                                id="usename" value={loginData.userName}
+                                onChange={(e) => handleImputCahnges('userName', e.target.value)}
+                                className="w-full"
+                                size="large"
+                                placeholder="Ingrese su usuario"
+                                required
                             />
                         </div>
 
                         {/*password*/}
                         <div className="field mb-4">
-                            <label htmlFor="password" className="block text-900 font-medium mb-2">Contraseña</label>
+                            <label htmlFor="password" className="block text-900 font-medium mb-2">
+                                Contraseña
+                            </label>
                             <Password
                                 id="password"
                                 value={loginData.password}
@@ -173,44 +159,16 @@ const Login = () => {
                             />
                         </div>
 
-                        {/*rol*/}
-                        {/*<div className="field mb-4">*/}
-                        {/*    <label htmlFor="role" className="block text-900 font-medium mb-2">Role</label>*/}
-                        {/*    <Dropdown*/}
-                        {/*        id="role"*/}
-                        {/*        value={role}*/}
-                        {/*        options={roles}*/}
-                        {/*        onChange={(e) => setRole(e.target.value)}*/}
-                        {/*        placeholder="Ingrese su role"*/}
-                        {/*        className="w-full"*/}
-                        {/*        size="large"*/}
-                        {/*        required*/}
-                        {/*    />*/}
-                        {/*</div>*/}
-
                         {/*BOTON*/}
-                        <Button label="Iniciar sesion" variant="primary"
-                                type="submit"
-                                icon="pi pi-sign-in"
-                                className="w-full mb-4"
-                                size="large"
+                        <Button
+                            label={loading ? "Iniciando sesion..." : "Iniciar sesion"}
+                            variant="primary"
+                            type="submit"
+                            icon={loading ? "pi pi-sign pi-spinner" : 'pi pi-sign-in'}
+                            className="w-full mb-4"
+                            size="large"
+                            disabled={loading}
                         />
-
-                        <Divider align="center">
-                            <span className="text-600 text-sm">Usuarios Demo</span>
-                        </Divider>
-
-                        <div className="demo-users grid">
-                            {demoUsers.map((demoUser, index) => (
-                                <div key={index} className="col-12 md:col-6">
-                                    <Button label={demoUser.label}
-                                            className="w-full p-button-outlined p-button-secondary mb-2 text-sm"
-                                            onClick={() => fillDemoCredentials(demoUser)}
-                                            size="small"
-                                    />
-                                </div>
-                            ))}
-                        </div>
 
                     </form>
                 </Card>
