@@ -1,0 +1,131 @@
+/* Auth Layout Principal */
+.auth-layout {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Background decorativo (lado izquierdo en desktop) */
+.auth-background {
+    flex: 1;
+    background: linear-gradient(rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
+    position: relative;
+    display: flex; /* Oculto en móvil */
+    align-items: center;
+    justify-content: center;
+    /*overflow: hidden;*/
+}
+
+@media (min-width: 768px) {
+    .auth-background {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.auth-background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.auth-background-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    max-width: 500px;
+    padding: 2rem;
+}
+
+/* Contenido del formulario (lado derecho en desktop) */
+.auth-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    background: white;
+    min-height: 100vh;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .auth-content {
+        flex: 0 0 500px; /* Ancho fijo en desktop */
+        min-height: auto;
+        border-radius: 0;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Contenedor de la tarjeta de login/register */
+.auth-card-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Footer específico para auth */
+.auth-footer {
+    margin-top: 1.5rem;
+    text-align: center;
+    width: 100%;
+    /*padding-top: 1.5rem;*/
+    /*border-top: 1px solid #e5e7eb;*/
+    padding-bottom: 1.5rem;
+    color: #c7cbd1;
+
+    /*padding-top: 1.5rem;*/
+
+    /*background: rgba(0, 0, 0, 0.2);*/
+    /*backdrop-filter: blur(4px);*/
+}
+
+.auth-footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/* Utilidades para texto (si no existen en theme.css) */
+.text-400 {
+    color: #9ca3af;
+}
+
+.text-600 {
+    color: #4b5563;
+}
+
+/* Hover effects */
+.hover\:text-primary:hover {
+    color: #667eea !important;
+}
+
+/* Responsive utilities */
+@media (max-width: 767px) {
+    .auth-layout {
+        background: white;
+    }
+
+    .auth-content {
+        padding: 1rem;
+        justify-content: flex-start;
+        padding-top: 2rem;
+    }
+
+    .auth-card-container {
+        max-width: 100%;
+    }
+}

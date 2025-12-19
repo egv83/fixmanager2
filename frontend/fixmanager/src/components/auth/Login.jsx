@@ -6,8 +6,8 @@ import {Password} from "primereact/password";
 import {Button} from "primereact/button";
 import {Message} from "primereact/message";
 import {Toast} from "primereact/toast";
-import {useAuth} from '../context/AuthContext';
-import {LoginService} from "../services/LoginService.js";
+import {useAuth} from '../../context/AuthContext.jsx';
+import {LoginService} from "../../services/LoginService.js";
 
 
 const API_URL = 'http://localhost:8080/api';
