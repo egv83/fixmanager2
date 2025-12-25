@@ -3,7 +3,10 @@ import { createRoot } from 'react-dom/client'
 // import { PrimeReactProvider } from "primereact";
 
 // PrimeReact CSS
-import "primereact/resources/themes/nova/theme.css";
+// import "primereact/resources/themes/nova/theme.css";
+// import "primereact/resources/themes/md-light-indigo/theme.css";
+// import "primereact/resources/themes/lara-light-blue/theme.css";
+import "primereact/resources/themes/lara-dark-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import 'primeflex/primeflex.css';

@@ -4,7 +4,7 @@
     --primary-50: #eff6ff;
     --primary-100: #dbeafe;
     --primary-500: #3b82f6;
-    --primary-600: #2563eb;
+    --primary-600: #6366f1;
     --primary-700: #1d4ed8;
 
     /* Colores secundarios */
@@ -12,7 +12,7 @@
     --secondary-600: #059669;
 
     /* Colores de acento */
-    --accent-purple: #8b5cf6;
+    --accent-purple: #a855f7;
     --accent-pink: #ec4899;
     --accent-orange: #f59e0b;
 
@@ -35,9 +35,9 @@
     --info: #3b82f6;
 
     /* Dimensiones del layout */
-    --sidebar-width: 260px;
+    --sidebar-width: 280px;
     --sidebar-collapsed-width: 70px;
-    --header-height: 64px;
+    --header-height: 70px;
     --footer-height: 60px;
 
     /* Sombras */
@@ -54,8 +54,10 @@
 
     /* Transiciones */
     --transition-fast: 150ms ease;
-    --transition-normal: 300ms ease;
-    --transition-slow: 500ms ease;
+    /*--transition-normal: 300ms ease;*/
+    /*--transition-slow: 5000ms ease;*/
+    --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Tema oscuro (opcional) */
@@ -84,3 +86,5 @@
 .shadow-lg { box-shadow: var(--shadow-lg); }
 
 .transition-normal { transition: all var(--transition-normal); }
+.transition-fast { transition: all var(--transition-fast); }
+.transition-slow { transition: all var(--transition-slow); }

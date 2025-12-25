@@ -3,20 +3,21 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {PanelMenu} from "primereact/panelmenu";
 // import {MenuItem} from "primereact/menuitem";
 import {Button} from "primereact/button";
+import { Ripple } from 'primereact/ripple';
 import {useAuth} from "../../context/AuthContext.jsx";
 
-const Sidebar = ({visible, user, onToggle}) => {
+const Sidebar = ({user, active, onToggle}) => {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const {logout, token, isAuthenticated} = useAuth();
+    const {logout, isAuthenticated} = useAuth();
 
     /* PARA LOGOUT */
     useEffect(() => {
         if (!isAuthenticated()) {
             navigate('/login');
         }
-    }, [user, token, isAuthenticated, navigate]);
+    }, [user, isAuthenticated, navigate]);
 
     const handleLogout = () => {
         logout();               // llama la logout de AutContext
@@ -29,19 +30,23 @@ const Sidebar = ({visible, user, onToggle}) => {
             {
                 label: 'Inicio',
                 icon: 'pi pi-home',
-                command: () => navigate('/dashboard'),
-                className: location.pathname === '/dashboard' ? 'active-menu-item' : ''
+                color: 'text-blue-500',
+                path: '/dashboard',
+                // command: () => navigate('/dashboard'),
+                // className: location.pathname === '/dashboard' ? 'active-menu-item' : ''
             },
-            {
-                label: 'Mi Perfil',
-                icon: 'pi pi-user',
-                command: () => navigate('/profile')
-            },
+            // {
+            //     label: 'Mi Perfil',
+            //     icon: 'pi pi-user',
+            //     command: () => navigate('/profile')
+            // },
             {
                 label: 'Notificaciones',
                 icon: 'pi pi-bell',
+                color: 'text-orange-500',
+                path: '/notifications',
                 badge: '3',
-                command: () => navigate('/notifications')
+                // command: () => navigate('/notifications')
             }
         ];
 
@@ -51,7 +56,7 @@ const Sidebar = ({visible, user, onToggle}) => {
                     label: 'Administración',
                     icon: 'pi pi-cog',
                     items: [
-                        {label: 'Usuarios', icon: 'pi pi-user-edit', command: () => navigate('/admin/users')},
+                        {label: 'Usuarios', icon: 'pi pi-user-edit', color: 'text-purple-500' ,path:'/admin/users'},
                         {label: 'Roles', icon: 'pi pi-id-card', command: () => navigate('/admin/roles')},
                         {label: 'Configuración', icon: 'pi pi-sliders-h', command: () => navigate('/admin/config')}
                     ]
@@ -130,20 +135,20 @@ const Sidebar = ({visible, user, onToggle}) => {
 
      };
 
-    if (!visible) return null;
+    // if (!active) return null;
 
     return (
-        <aside className="sidebar">
+        <aside className={`sidebar ${!active ? 'collapsed' : ''}`}>
             <div className="sidebar-header">
                 <div className="flex align-items-center">
                     <i className="pi pi-cog text-2xl mr-2"/>
                     <span className="font-bold">FixManager</span>
                 </div>
-                <Button
-                    icon="pi pi-bars"
-                    className="p-button-text p-button-rounded"
-                    onClick={onToggle}
-                /> {/*pi-times*/}
+                {/*<Button*/}
+                {/*    icon="pi pi-bars"*/}
+                {/*    className="p-button-text p-button-rounded"*/}
+                {/*    onClick={onToggle}*/}
+                {/*/> /!*pi-times*!/*/}
             </div>
 
             {/* DATOS DEL USUARIO */}
