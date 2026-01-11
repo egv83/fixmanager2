@@ -1,0 +1,9 @@
+INSERT INTO public.users
+(id, user_name, "password", full_name, rol, is_actived, is_account_non_locked, is_account_non_expired, is_credentials_non_expired, fecha_creacion, failed_attempt)
+VALUES(8, 'esteban8305', '$2a$10$.L40KrL2SLIix4txgQMquu.8MCSbivoagKtM4oZyDVP41XUjZpDaW', 'Esteban Vallejo', 'ADMIN', 'ACTIVO', true, true, true, '2025-11-23 19:03:34.941', 1);
+INSERT INTO public.users
+(id, user_name, "password", full_name, rol, is_actived, is_account_non_locked, is_account_non_expired, is_credentials_non_expired, fecha_creacion, failed_attempt)
+VALUES(1, 'esteban83', '$2a$10$.L40KrL2SLIix4txgQMquu.8MCSbivoagKtM4oZyDVP41XUjZpDaW', 'Esteban Vallejo', 'TECNICO', 'ACTIVO', true, true, true, '2025-10-10 20:42:28.941', 0);
+INSERT INTO public.users
+(id, user_name, "password", full_name, rol, is_actived, is_account_non_locked, is_account_non_expired, is_credentials_non_expired, fecha_creacion, failed_attempt)
+VALUES(4, 'esteban830', '$2a$10$.L40KrL2SLIix4txgQMquu.8MCSbivoagKtM4oZyDVP41XUjZpDaW', 'Esteban Vallejo', 'SECRETARIA', 'ACTIVO', true, true, true, '2025-11-14 21:39:27.605', 0);
