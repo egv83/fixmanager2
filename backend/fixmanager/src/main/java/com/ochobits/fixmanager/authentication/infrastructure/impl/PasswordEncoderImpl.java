@@ -1,6 +1,6 @@
-package com.ochobits.fixmanager.authentication.infrastructure.security.impl;
+package com.ochobits.fixmanager.authentication.infrastructure.impl;
 
-import com.ochobits.fixmanager.authentication.infrastructure.interfaces.PasswordEncoder;
+import com.ochobits.fixmanager.authentication.domain.interfaces.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

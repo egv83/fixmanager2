@@ -56,9 +56,14 @@ public class UserEntity implements Serializable {
     @Column(name = "fecha_creacion")
     private LocalDateTime createdAt;
 
+    @Column(name = "failed_attempt")
+    private Integer failedAttempt;
+
     public UserEntity(){}
 
-    public UserEntity(String userName, String password, String fullName, RoleEnum rol, String isEnabled, Boolean isAccountNonLocked, Boolean isAccountNonExpired, Boolean isCredentialsNonExpired, LocalDateTime createdAt){
+    public UserEntity(String userName, String password, String fullName, RoleEnum rol, String isEnabled,
+                      Boolean isAccountNonLocked, Boolean isAccountNonExpired, Boolean isCredentialsNonExpired,
+                      LocalDateTime createdAt, Integer failedAttempt){
         this.userName = userName;
         this.password = password;
         this.fullName = fullName;
@@ -68,6 +73,7 @@ public class UserEntity implements Serializable {
         this.isAccountNonExpired = isAccountNonExpired;
         this.isCredentialsNonExpired = isCredentialsNonExpired;
         this.createdAt = createdAt;
+        this.failedAttempt = failedAttempt;
     }
 
     @PrePersist

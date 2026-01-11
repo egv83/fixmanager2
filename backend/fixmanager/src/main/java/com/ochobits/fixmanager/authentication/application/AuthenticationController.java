@@ -2,7 +2,7 @@ package com.ochobits.fixmanager.authentication.application;
 
 import com.ochobits.fixmanager.authentication.application.dto.LoginRequest;
 import com.ochobits.fixmanager.authentication.application.dto.LoginResponse;
-import com.ochobits.fixmanager.authentication.domain.service.AuthService;
+import com.ochobits.fixmanager.authentication.application.service.AuthService;
 //import com.ochobits.fixmanager.authentication.services.AccountServices;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

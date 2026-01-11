@@ -1,8 +1,8 @@
 package com.ochobits.fixmanager.config;
 
 import com.ochobits.fixmanager.authentication.application.dto.ErrorResponse;
-import com.ochobits.fixmanager.shared.exception.*;
-import com.sun.net.httpserver.HttpsServer;
+import com.ochobits.fixmanager.authentication.domain.exceptions.*;
+import com.ochobits.fixmanager.user.domain.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleBadCredentials(BadCredentialsException ex, WebRequest request){
         ErrorResponse errorResponse = ErrorResponse.create(
-          "Credenciales invalidas",
+          ex.getMessage(),
           "UNAUTHORIZED",
                 HttpStatus.UNAUTHORIZED.value(),
                 request.getDescription(false)
@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccountLockedException.class)
     public ResponseEntity<ErrorResponse> handleAccountLocked(AccountLockedException ex, WebRequest request){
         ErrorResponse errorResponse = ErrorResponse.create(
-                "Cuenta bloqueada",
+                ex.getMessage(),
                 "LOCKED",
                 HttpStatus.LOCKED.value(),
                 request.getDescription(false)
@@ -50,7 +50,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccountInactiveException.class)
     public ResponseEntity<ErrorResponse> handleAccountInactive(AccountInactiveException ex, WebRequest request){
         ErrorResponse errorResponse = ErrorResponse.create(
-          "Cuenta inactiva",
+          ex.getMessage(),
           "FORBIDDEN",
           HttpStatus.FORBIDDEN.value(),
           request.getDescription(false)

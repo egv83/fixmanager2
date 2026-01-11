@@ -42,6 +42,7 @@ public class UserMapperImpl implements UserMapper {
                 .isAccountNonLocked(entity.getIsAccountNonLocked())
                 .isCredentialsNonExpired(entity.getIsCredentialsNonExpired())
                 .createdAt(entity.getCreatedAt())
+                .failedAttemptCount(entity.getFailedAttempt())
                 .build();
     }
 
@@ -73,6 +74,7 @@ public class UserMapperImpl implements UserMapper {
         entity.setIsAccountNonExpired(model.getIsAccountNonExpired());
         entity.setIsAccountNonLocked(model.getIsAccountNonLocked());
         entity.setIsCredentialsNonExpired(model.getIsCredentialsNonExpired());
+        entity.setFailedAttempt(model.getFailedAttemptCount());
         return  entity;
     }
 

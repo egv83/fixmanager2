@@ -4,7 +4,6 @@ import com.ochobits.fixmanager.user.domain.enums.AccountStateEnum;
 import com.ochobits.fixmanager.user.domain.enums.RoleEnum;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 public class User {
     private final Long id;
@@ -18,6 +17,7 @@ public class User {
     private final Boolean isAccountNonExpired;
     private final Boolean isCredentialsNonExpired;
     private final LocalDateTime createdAt;
+    private final Integer failedAttemptCount;
 
     private User(UserBuilder builder) {
         this.id = builder.id;
@@ -31,6 +31,7 @@ public class User {
         this.isAccountNonExpired = builder.isAccountNonExpired;
         this.isCredentialsNonExpired = builder.isCredentialsNonExpired;
         this.createdAt = builder.createdAt;
+        this.failedAttemptCount = builder.failedAttemptCount;
     }
 
     public static class UserBuilder {
@@ -45,6 +46,7 @@ public class User {
         private Boolean isAccountNonExpired;
         private Boolean isCredentialsNonExpired;
         private LocalDateTime createdAt;
+        private Integer failedAttemptCount;
 
         public UserBuilder(User user){
             this.id = user.getId();
@@ -58,9 +60,12 @@ public class User {
             this.isAccountNonExpired = user.getIsAccountNonExpired();
             this.isCredentialsNonExpired = user.getIsCredentialsNonExpired();
             this.createdAt = user.getCreatedAt();
+            this.failedAttemptCount = user.getFailedAttemptCount();
         }
 
-        public UserBuilder(){}
+        public UserBuilder(){
+            this.failedAttemptCount = 0;
+        }
 
         public UserBuilder id(Long id) {
             this.id = id;
@@ -117,6 +122,11 @@ public class User {
             return this;
         }
 
+        public UserBuilder failedAttemptCount(Integer failedAttemptCount){
+            this.failedAttemptCount =  failedAttemptCount;
+            return this;
+        }
+
         public User build() {
             return new User(this);
         }
@@ -165,6 +175,10 @@ public class User {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public Integer getFailedAttemptCount(){
+        return failedAttemptCount;
     }
 
     public static UserBuilder builder(){

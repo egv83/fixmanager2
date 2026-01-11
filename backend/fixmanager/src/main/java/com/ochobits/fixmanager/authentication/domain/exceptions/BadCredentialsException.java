@@ -1,4 +1,4 @@
-package com.ochobits.fixmanager.shared.exception;
+package com.ochobits.fixmanager.authentication.domain.exceptions;
 
 public class BadCredentialsException extends RuntimeException{
 

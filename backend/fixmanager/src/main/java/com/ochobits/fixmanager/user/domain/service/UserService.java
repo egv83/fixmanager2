@@ -1,7 +1,7 @@
 package com.ochobits.fixmanager.user.domain.service;
 
-import com.ochobits.fixmanager.authentication.infrastructure.interfaces.PasswordEncoder;
-import com.ochobits.fixmanager.shared.exception.UserNotFoundException;
+import com.ochobits.fixmanager.authentication.domain.interfaces.PasswordEncoder;
+import com.ochobits.fixmanager.user.domain.exceptions.UserNotFoundException;
 import com.ochobits.fixmanager.user.application.dto.CreateUserRequest;
 import com.ochobits.fixmanager.user.application.dto.PasswordUpdateRequest;
 import com.ochobits.fixmanager.user.application.dto.UpdateRequest;
@@ -35,7 +35,7 @@ public class UserService implements UserCreateService, UserFindService {
     @Override
     public UserResponse createUser(CreateUserRequest request) {
         if(userJpaRepository.existsByUserName(request.userName())){
-            throw new RuntimeException("Usuario ya existe");
+            throw new UserNotFoundException("Usuario ya existe");
         }
 
 

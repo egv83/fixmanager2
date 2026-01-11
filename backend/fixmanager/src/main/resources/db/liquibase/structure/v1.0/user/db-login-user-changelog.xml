@@ -55,4 +55,10 @@
         newDataType="VARCHAR(20)"/>
     </changeSet>
 
+    <changeSet id="user-202512012014-modify-column" author="Esteban Vallejo" runOnChange="true">
+        <addColumn tableName="users">
+            <column name="failed_attempt" type="integer"></column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

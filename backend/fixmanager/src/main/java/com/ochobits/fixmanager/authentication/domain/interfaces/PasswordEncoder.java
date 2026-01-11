@@ -1,4 +1,4 @@
-package com.ochobits.fixmanager.authentication.infrastructure.interfaces;
+package com.ochobits.fixmanager.authentication.domain.interfaces;
 
 public interface PasswordEncoder {
 

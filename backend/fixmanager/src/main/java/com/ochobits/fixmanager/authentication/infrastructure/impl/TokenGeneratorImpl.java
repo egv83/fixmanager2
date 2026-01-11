@@ -1,6 +1,6 @@
-package com.ochobits.fixmanager.authentication.infrastructure.security.impl;
+package com.ochobits.fixmanager.authentication.infrastructure.impl;
 
-import com.ochobits.fixmanager.authentication.infrastructure.interfaces.TokenGenerator;
+import com.ochobits.fixmanager.authentication.domain.interfaces.TokenGenerator;
 import com.ochobits.fixmanager.shared.util.ParamReader;
 import com.ochobits.fixmanager.user.domain.model.User;
 import io.jsonwebtoken.Jwts;
