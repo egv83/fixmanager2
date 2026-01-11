@@ -1,131 +1,143 @@
-/* Auth Layout Principal */
+/* Layout Base: Ocupa toda la pantalla sin scroll */
 .auth-layout {
     display: flex;
-    min-height: 100vh;
     flex-direction: column;
+    height: 100vh; /* Altura fija de pantalla */
+    width: 100%;
+    overflow: hidden; /* Evita scroll innecesario */
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-/* Background decorativo (lado izquierdo en desktop) */
-.auth-background {
-    flex: 1;
-    background: linear-gradient(rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
+.auth-form-container {
+    /* 1. Posicionamiento y Capas */
     position: relative;
-    display: flex; /* Oculto en móvil */
-    align-items: center;
+    z-index: 10; /* Debe ser mayor que el z-index del overlay para poder hacer clic */
+
+    /* 2. Centrado del contenido */
+    display: flex;
     justify-content: center;
-    /*overflow: hidden;*/
+    align-items: center;
+
+    /* 3. Espaciado y Dimensiones */
+    width: 100%;
+    padding: 2rem; /* Espacio de seguridad para que el form no toque los bordes en móvil */
+
+    /* 4. Comportamiento de clics */
+    pointer-events: all; /* Asegura que los eventos de ratón lleguen a los inputs */
 }
 
-@media (min-width: 768px) {
-    .auth-background {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
+/* Sección principal que contiene texto y form */
+.auth-main-section {
+    flex: 1; /* Ocupa todo el espacio arriba del footer */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .auth-background-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2);
     z-index: 1;
+    pointer-events: none;
 }
 
-.auth-background-content {
+/* Contenedor flexible para alinear Branding y Form */
+.auth-container-flex {
     position: relative;
-    z-index: 2;
-    text-align: center;
-    color: white;
-    max-width: 500px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column; /* Cambia a 'row' en desktop si quieres uno al lado del otro */
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
     padding: 2rem;
 }
 
-/* Contenido del formulario (lado derecho en desktop) */
-.auth-content {
-    flex: 1;
+.auth-background-content {
+    text-align: center;
+    color: white;
+}
+
+/* Card de Login */
+.login-card {
+    position: relative;
+    z-index: 20;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 12px;
+}
+
+/* CORRECCIÓN ICONO PASSWORD CENTRADO */
+.p-password {
+    position: relative;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* 1. Atacamos el contenedor envolvente que crea PrimeReact */
+.p-password.p-inputwrapper {
+    display: block !important; /* Cambiamos a block para controlar el hijo */
+    position: relative;
+}
+
+/* 2. Este es el span que contiene el input y el icono */
+.p-password .p-inputtext-toggle {
+    display: flex !important;
+    align-items: center !important;
+    position: relative;
+}
+
+/* 3. Centrado absoluto del icono del ojo */
+.p-password-toggle-mask-icon {
+    position: absolute !important;
+    top: 50% !important; /* Mitad de la caja */
+    right: 12px !important;
+    transform: translateY(-50%) !important; /* Ajuste preciso al centro */
+
+    /* RESET TOTAL de márgenes de la librería */
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 0 !important;
+    height: 16px !important; /* Altura estándar del icono pi */
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* 4. Aseguramos que el input no desplace al icono */
+.p-password input {
+    width: 100% !important;
+    padding-right: 2.5rem !important; /* Espacio para que el texto no toque el ojo */
+}
+
+/* Footer pegado al final */
+.auth-footer {
+    height: 80px; /* Altura fija */
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    padding: 1.5rem;
-    background: white;
-    min-height: 100vh;
-    width: 100%;
-}
-
-@media (min-width: 768px) {
-    .auth-content {
-        flex: 0 0 500px; /* Ancho fijo en desktop */
-        min-height: auto;
-        border-radius: 0;
-        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
-    }
-}
-
-/* Contenedor de la tarjeta de login/register */
-.auth-card-container {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-}
-
-/* Footer específico para auth */
-.auth-footer {
-    margin-top: 1.5rem;
-    text-align: center;
-    width: 100%;
-    /*padding-top: 1.5rem;*/
-    /*border-top: 1px solid #e5e7eb;*/
-    padding-bottom: 1.5rem;
-    color: #c7cbd1;
-
-    /*padding-top: 1.5rem;*/
-
-    /*background: rgba(0, 0, 0, 0.2);*/
-    /*backdrop-filter: blur(4px);*/
-}
-
-.auth-footer-links {
-    display: flex;
     justify-content: center;
-    align-items: center;
-    margin-top: 0.5rem;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    background: rgba(0, 0, 0, 0.1);
+    color: rgba(255, 255, 255, 0.7);
 }
 
-/* Utilidades para texto (si no existen en theme.css) */
-.text-400 {
-    color: #9ca3af;
+.auth-footer a {
+    color: white;
+    text-decoration: none;
+    opacity: 0.8;
 }
 
-.text-600 {
-    color: #4b5563;
+/* Responsive: En pantallas pequeñas bajamos tamaños */
+@media (max-height: 700px) {
+    .auth-background-content i { font-size: 3rem !important; }
+    .auth-background-content h1 { font-size: 2rem !important; }
+    .auth-container-flex { gap: 1rem; }
+    .auth-layout { overflow-y: auto; } /* Permitir scroll solo si la pantalla es diminuta */
 }
 
-/* Hover effects */
-.hover\:text-primary:hover {
-    color: #667eea !important;
-}
-
-/* Responsive utilities */
-@media (max-width: 767px) {
-    .auth-layout {
-        background: white;
-    }
-
-    .auth-content {
-        padding: 1rem;
-        justify-content: flex-start;
-        padding-top: 2rem;
-    }
-
-    .auth-card-container {
-        max-width: 100%;
-    }
+.inputs{
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
 }

@@ -50,7 +50,7 @@ const MainLayout = () => {
                 {/*    onClick={toggleSidebar}*/}
                 {/*    // style={{zIndex: 1000}}*/}
                 {/*>*/}
-                    <Sidebar user={user} active={sidebarActive} onToggle={toggleSidebar}/>
+                    <Sidebar user={user} active={sidebarActive} />
                 {/*</div>*/}
 
 
@@ -87,12 +87,10 @@ const MainLayout = () => {
 
                 <main
                     className="content-area"
-                    // className="flex-1 flex flex-column p-3 md:p-4"
                 >
                     {/* Tarjeta contenedora del contenido real */}
                     <div
                         className="content-container surface-card shadow-2"
-                        // className="flex-1 bg-white border-round-xl shadow-1 p-3 md:p-4 mb-4"
                     >
                         <Outlet/>
                     </div>
@@ -100,16 +98,7 @@ const MainLayout = () => {
                     <Footer/>
                 </main>
 
-                {/*<main className="content-area">*/}
-                {/*    <div className="content-container">*/}
-                {/*        <Outlet/> /!* Renderiza rutas hijas*!/*/}
-                {/*    </div>*/}
-                {/*</main>*/}
-
             </div>
-
-            {/* FOOTER */}
-            {/*<Footer/>*/}
 
         </div>
     );

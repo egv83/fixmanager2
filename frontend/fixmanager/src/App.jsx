@@ -2,7 +2,7 @@
 
 import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
 import Login from './components/auth/Login.jsx';
-import Dashboard from './components/dashboards/Dashboard.jsx';
+import DashboardSelector from './components/dashboards/DashboardSelector.jsx';
 
 import {AuthProvider} from "./context/AuthContext.jsx";
 
@@ -19,19 +19,25 @@ function App() {
         <AuthProvider>
             <BrowserRouter>
                 <Routes>
-                    {/* Rutas publicas*/}
+                    {/* Rutas publicas si no se esta logueado */}
                     <Route element={<AuthLayout/>}>
                         <Route path="/login" element={<Login/>}/>
                     </Route>
 
-                    {/* Rutas protegidas */}
+                    {/* Rutas protegidas todas dentro del marco MainLayout */}
                     <Route path="/" element={
                         // <ProtectedRoute>
                         <MainLayout/>
                         // </ProtectedRoute>
                     }>
                         <Route index element={<Navigate to="/dashboard" replace/>}/>
-                        <Route path="/dashboard" element={null}/> {/* Renderiza por el MainLayout */}
+
+                        {/* EL PUNTO CLAVE:
+                            Cuando el técnico entre a /dashboard, DashboardSelector
+                            renderizará la pantalla de los tickets que viste en la imagen.
+                        */}
+
+                        <Route path="/dashboard" element={<DashboardSelector />}/> {/* Renderiza por el MainLayout */}
 
                         {/* Rutas especificas */}
                         <Route path="profile" element={<div>Perfil</div>}/>
@@ -69,24 +75,6 @@ function App() {
                     }/>
 
                 </Routes>
-
-                {/*<div className="app-container">*/}
-                {/*    <Routes>*/}
-                {/*        /!*Ruta publica de login *!/*/}
-                {/*        <Route path="/login" element={<Login/>}/>*/}
-
-                {/*        /!*Ruta protegida de dashboard*!/*/}
-                {/*        <Route path="/dashboard" element={*/}
-                {/*            // <ProtectedRoute>*/}
-                {/*                <Dashboard/>*/}
-                {/*            // </ProtectedRoute>*/}
-                {/*        }/>*/}
-
-                {/*        <Route path="/" element={<Navigate to="/login" replace/>}/>*/}
-                {/*        /!*<Route path="/CreateUser" element={<CreateUser />} />*!/*/}
-                {/*        /!*<Route path="/" element={<Navigate to="/CreateUser" replace />} />*!/*/}
-                {/*    </Routes>*/}
-                {/*</div>*/}
             </BrowserRouter>
         </AuthProvider>
     )

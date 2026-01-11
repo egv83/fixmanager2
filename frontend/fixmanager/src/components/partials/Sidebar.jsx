@@ -1,28 +1,11 @@
-import React, {useEffect} from 'react';
-import {useLocation, useNavigate} from "react-router-dom";
+import React from 'react';
+import {useNavigate} from "react-router-dom";
 import {PanelMenu} from "primereact/panelmenu";
-// import {MenuItem} from "primereact/menuitem";
-import {Button} from "primereact/button";
-import { Ripple } from 'primereact/ripple';
-import {useAuth} from "../../context/AuthContext.jsx";
 
-const Sidebar = ({user, active, onToggle}) => {
+
+const Sidebar = ({user, active}) => {
 
     const navigate = useNavigate();
-    const location = useLocation();
-    const {logout, isAuthenticated} = useAuth();
-
-    /* PARA LOGOUT */
-    useEffect(() => {
-        if (!isAuthenticated()) {
-            navigate('/login');
-        }
-    }, [user, isAuthenticated, navigate]);
-
-    const handleLogout = () => {
-        logout();               // llama la logout de AutContext
-        navigate('/login')      // Redirige al login
-    }
 
     /* ITEMS DEL MENÚ POR ROL*/
      const getMenuItems = () => {
@@ -32,14 +15,7 @@ const Sidebar = ({user, active, onToggle}) => {
                 icon: 'pi pi-home',
                 color: 'text-blue-500',
                 path: '/dashboard',
-                // command: () => navigate('/dashboard'),
-                // className: location.pathname === '/dashboard' ? 'active-menu-item' : ''
             },
-            // {
-            //     label: 'Mi Perfil',
-            //     icon: 'pi pi-user',
-            //     command: () => navigate('/profile')
-            // },
             {
                 label: 'Notificaciones',
                 icon: 'pi pi-bell',
@@ -144,11 +120,6 @@ const Sidebar = ({user, active, onToggle}) => {
                     <i className="pi pi-cog text-2xl mr-2"/>
                     <span className="font-bold">FixManager</span>
                 </div>
-                {/*<Button*/}
-                {/*    icon="pi pi-bars"*/}
-                {/*    className="p-button-text p-button-rounded"*/}
-                {/*    onClick={onToggle}*/}
-                {/*/> /!*pi-times*!/*/}
             </div>
 
             {/* DATOS DEL USUARIO */}
@@ -164,18 +135,10 @@ const Sidebar = ({user, active, onToggle}) => {
             </div>
 
             <div className="sidebar-menu">
-                <PanelMenu model={getMenuItems()}  className="w-full"/>
-            </div>
-
-            <div className="sidebar-footer">
-                <Button
-                    label="Cerrar Sesión"
-                    icon="pi pi-sign-out"
-                    className="w-full p-button-outlined p-button-danger"
-                    onClick={handleLogout}
+                <PanelMenu model={getMenuItems()}  className="w-full md:max-w-20rem"
+                           style={{}}
                 />
             </div>
-
         </aside>
     )
 }

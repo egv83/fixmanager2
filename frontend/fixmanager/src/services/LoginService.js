@@ -16,6 +16,7 @@ export const LoginService = {
 
             //GUARDAR TOKEN EN LOCAL STORAGE
             if(!data.token){
+
                 console.error('No se recibió token');
                 return {
                     success:false,

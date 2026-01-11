@@ -34,7 +34,7 @@ const Login = () => {
         });
     };
 
-    const handleImputCahnges = (field, value) => {
+    const handleImputChanges = (field, value) => {
         console.log('Input cambiado:', field, value);
         setLoginData(prevFormData => ({
             ...prevFormData,
@@ -106,74 +106,67 @@ const Login = () => {
 
 
     return (
-        <div className="login-container">
+        <>
+            {/*<div className="login-container">*/}
             <Toast ref={toastCenter} position="center"/>
-            <div className="login-wrapper">
+            <div className="login-card shadow-4">
                 <Card className="login-card shadow-4"
                       header={
-                          <div className="text-center p-4 surface-0">
-                              <i className="pi pi-cog text-6xl text-primary" style={{fontSize: '4rem'}}/>
+                          <div className="text-center p-5 surface-card">
+                              <i className="pi pi-cog text-primary" style={{fontSize: '4rem'}}/>
                               <h1 className="text-2xl font-bold mt-3 text-900"/>
                           </div>
                       }
                 >
                     <form onSubmit={handleSubmit} className="login-form p-fluid">
-                        {/*{error && (*/}
-                        {/*    <Message*/}
-                        {/*        severity="error"*/}
-                        {/*        text={error}*/}
-                        {/*        className="w-full mb-3"*/}
-                        {/*    />*/}
-                        {/*)}*/}
-
-
-                        {/*userName*/}
-                        <div className="field mb-4">
+                        <div className="field mb-4 inputs">
                             <label htmlFor="username" className="block text-900 font-medium mb-2">Usuario</label>
                             <InputText
                                 id="usename" value={loginData.userName}
-                                onChange={(e) => handleImputCahnges('userName', e.target.value)}
-                                className="w-full"
-                                size="large"
+                                onChange={(e) => handleImputChanges('userName', e.target.value)}
+                                className="p-3"
+                                // size="large"
                                 placeholder="Ingrese su usuario"
                                 required
                             />
                         </div>
 
                         {/*password*/}
-                        <div className="field mb-4">
+                        <div className="field mb-4 inputs">
                             <label htmlFor="password" className="block text-900 font-medium mb-2">
                                 Contraseña
                             </label>
                             <Password
                                 id="password"
                                 value={loginData.password}
-                                onChange={(e) => handleImputCahnges('password', e.target.value)}
+                                onChange={(e) => handleImputChanges('password', e.target.value)}
                                 className="w-full"
-                                inputClassName="w-full"
+                                toggleMask
                                 feedback={false}
                                 placeholder="Ingrese su contraseña"
-                                toggleMask
-                                size="large"
+                                inputClassName="w-full p-3"
+                                inputStyle={{width: '100%'}}
                                 required
                             />
                         </div>
 
                         {/*BOTON*/}
-                        <Button
-                            label={loading ? "Iniciando sesion..." : "Iniciar sesion"}
-                            variant="primary"
-                            type="submit"
-                            icon={loading ? "pi pi-sign pi-spinner" : 'pi pi-sign-in'}
-                            className="w-full mb-4"
-                            size="large"
-                            disabled={loading}
-                        />
+                        <div className="inputs">
+                            <Button
+                                label={loading ? "Iniciando sesion..." : "Iniciar sesion"}
+                                variant="primary"
+                                type="submit"
+                                icon={loading ? "pi pi-sign pi-spinner" : 'pi pi-sign-in'}
+                                className="w-full p-3 mt-2 mb-4"
+                                disabled={loading}
+                            />
+                        </div>
 
                     </form>
                 </Card>
             </div>
-        </div>
+            {/*</div>*/}
+        </>
     )
 
 

@@ -82,10 +82,86 @@
     margin-right: 0.75rem;
 }
 
+.user-profile {
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: var(--border-radius-md);
+    transition: background-color var(--transition-fast);
+}
+
+.user-profile:hover {
+    background-color: var(--gray-100); /* En modo claro */
+}
+
+/* En modo oscuro, PrimeReact usa variables de superficie */
+[data-theme="dark"] .user-profile:hover {
+    background-color: var(--surface-hover);
+}
+
+/* Asegura que el popup del menú combine con el tema oscuro */
+.p-menu {
+    background: var(--surface-overlay) !important;
+    border: 1px solid var(--surface-border) !important;
+}
+
+.p-menu .p-menuitem-link .p-menuitem-text {
+    color: var(--text-color) !important;
+}
+
 .sidebar-menu {
     flex: 1;
     overflow-y: auto;
     padding: 1rem 0.75rem;
+}
+
+.p-panelmenu{
+    border: 1px solid #444 !important; /* GROSOR Y COLOR DEL BORDE GENERAL*/
+    border-radius: var(--border-radius-md) !important; /*RADIO PARA LOS FILOS DEL BORDE*/
+    overflow: hidden !important; /*PARA QUE LOS HIJOS NO SE SALGAN*/
+
+}
+
+.p-panelmenu .p-panelmenu-panel:not(:last-child) {
+    border-bottom: 1px solid #333; /*GROSOR Y COLOR DE LINEA DIVISORIA DE OPCIONES*/
+}
+
+.p-panelmenu .p-panelmenu-header-content {
+    border: none !important;
+    border-radius: var(--border-radius-md) !important;
+    padding: 0.5rem 1rem !important;
+    /*background: transparent !important;*/
+    box-shadow: none !important;
+}
+
+.p-panelmenu .p-panelmenu-header-link {
+    padding: 0.5rem 0rem !important; /*Aumenta el espacio entre los elementos*/
+    font-size: 1rem !important; /*Se define el tamaño de la letra*/
+    display: flex !important;
+    align-items: center;
+    gap: 1rem !important; /*Da espacio entre el icono y el text*/
+}
+
+.p-panelmenu .p-panelmenu-content {
+    padding: 0.5rem 1rem !important;
+}
+
+/* 5. Efecto Hover para que se note la selección */
+.p-panelmenu .p-panelmenu-header-content:hover {
+    background-color: rgba(89, 128, 192, 0.61) !important;
+    transition: background 0.3s;
+}
+
+/* PARA EL SUBMENU*/
+.p-panelmenu .p-panelmenu-content .p-menuitem-link {
+    padding: 0.5rem 1.5rem !important;
+    font-size: 1rem !important;
+    gap: 1rem !important;
+
+}
+
+.p-panelmenu-content .p-menuitem-link:hover {
+    background-color: rgba(172, 229, 133, 0.37) !important;
+    transition: background 0.3s;
 }
 
 .sidebar-footer {
@@ -300,7 +376,8 @@
 /* Área de Contenido */
 .content-area {
     flex: 1;
-    padding: 1.5rem;
+    padding: 1rem;
+    padding-bottom: 0.5rem;
     display: flex;
     flex-direction: column;
     background-color: var(--surface-ground);
@@ -323,6 +400,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: 2rem;
     padding: 0 1.5rem;
     color: var(--text-color-secondary);
 }
