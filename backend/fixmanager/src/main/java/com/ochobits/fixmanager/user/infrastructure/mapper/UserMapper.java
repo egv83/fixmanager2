@@ -5,7 +5,10 @@ import com.ochobits.fixmanager.user.application.dto.UserResponse;
 import com.ochobits.fixmanager.user.domain.enums.AccountStateEnum;
 import com.ochobits.fixmanager.user.domain.enums.RoleEnum;
 import com.ochobits.fixmanager.user.domain.model.User;
+import com.ochobits.fixmanager.user.infrastructure.interfaces.UserJpaRepository;
 import com.ochobits.fixmanager.user.infrastructure.persistence.UserEntity;
+
+import java.util.List;
 
 public interface UserMapper {
 
@@ -29,5 +32,8 @@ public interface UserMapper {
 //    Set<RoleEnum> strngToRoleEnum(List<String> roleString);
 //
 //    Set<String> rolesToString(List<RoleEnum> roleEnums);
+
+    List<UserResponse> toResponseList(List<User> userList);
+    List<User> toModelList(List<UserEntity> userEntityList);
 
 }

@@ -115,7 +115,11 @@ public class UserService implements UserCreateService, UserFindService {
         );
     }
 
-
+    @Override
+    public List<UserResponse> findAllUser() {
+        List<User> userList = userMapper.toModelList(userJpaRepository.findAll());
+        return userMapper.toResponseList(userList);
+    }
 
 
 }

@@ -5,10 +5,12 @@ import com.ochobits.fixmanager.user.application.dto.UserResponse;
 import com.ochobits.fixmanager.user.domain.enums.AccountStateEnum;
 import com.ochobits.fixmanager.user.domain.enums.RoleEnum;
 import com.ochobits.fixmanager.user.domain.model.User;
+import com.ochobits.fixmanager.user.infrastructure.interfaces.UserJpaRepository;
 import com.ochobits.fixmanager.user.infrastructure.mapper.UserMapper;
 import com.ochobits.fixmanager.user.infrastructure.persistence.UserEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -131,6 +133,29 @@ public class UserMapperImpl implements UserMapper {
             throw new IllegalArgumentException(e);
         }
     }
+
+    @Override
+    public List<UserResponse> toResponseList(List<User> userList) {
+        if(Objects.isNull(userList)){
+            return null;
+        }
+
+        return userList.stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    @Override
+    public List<User> toModelList(List<UserEntity> userEntityList) {
+        if(Objects.isNull(userEntityList)){
+            return null;
+        }
+
+        return userEntityList.stream()
+                .map(this::toModel)
+                .toList();
+    }
+
 
 //    @Override
 //    public Set<RoleEnum> strngToRoleEnum(List<String> roleString) {
